@@ -18,6 +18,7 @@ body {
     font-size: 8vw;
     margin-top: 0;
     margin-bottom: 1vh;
+    color: white;
 }
 
 .index-button {
@@ -55,13 +56,12 @@ body {
     left: 50%;
     background: white;
     width: 500px;
-    height: 500px;
-    margin-left: -250px;
-    margin-top: -250px;
     border-radius: 20px;
     z-index: 200;
-    -webkit-animation: fadeIn 1.5s;
-    animation: fadeIn 1.5s;
+    -webkit-animation: fadeIn 1s;
+    animation: fadeIn 1s;
+    left: auto;
+    top: auto;
 }
 
 .popup-close {
@@ -126,4 +126,24 @@ body {
     width: 200px;
     margin: auto;
     margin-top: 3em;
+    margin-bottom: 4em;
+}
+
+.popup-button[disabled] {
+    color: #CCCCCC;
+    background: #EBEBEB;
+    cursor: default;
+}
+
+.input-box-invalid-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.input-box-invalid-msg {
+    font-size: 12px;
+    color: #BD0000;
+    display: flex;
+    padding-left: 10px;
+    margin: 0;
 }
