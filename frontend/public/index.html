@@ -4,9 +4,73 @@
         <title>Friender</title>
         <meta charset="UTF-8" />
         <link rel="stylesheet" href="static/css/styles.css" />
-        <script src="static/js/index.js"></script>
+        <link rel="stylesheet" href="static/css/index.css" />
     </head>
     <body>
-
+        <section class="index-button-section">
+            <h1 class="index-heading-text">Friender</h1>
+            <button class="index-button" onclick="openPopup('login')">
+                Log in
+            </button>
+            <button class="index-button" onclick="openPopup('create')">
+                Create an account
+            </button>
+        </section>
+        <section id="overlay" class="overlay"></section>
+        <section id="popup-login" class="popup">
+            <section class="popup-controls">
+                <button id="popupclose" class="popup-close" onclick="closePopup('login')">X</button>
+            </section>
+            <section class="popup-content">
+                <h2 class="popup-heading">Log in</h2>
+                <article class="popup-input">
+                    <p class="popup-input-label">Email address</p>
+                    <input
+                        value=""
+                        placeholder="Eg. john@gmail.com"
+                        class="popup-input-box"
+                    />
+                </article>
+                <article class="popup-input">
+                    <p class="popup-input-label">Password</p>
+                    <input
+                        value=""
+                        placeholder="Enter your password"
+                        class="popup-input-box"
+                    />
+                </article>
+                <button id="" class="index-button popup-button">
+                    Log in
+                </button>
+            </section>
+        </section>
+        <section id="popup-create" class="popup">
+            <section class="popup-controls">
+                <button id="popupclose" class="popup-close" onclick="closePopup('create')">X</button>
+            </section>
+            <section class="popup-content">
+                <h2 class="popup-heading">Create an account</h2>
+                <article class="popup-input">
+                    <p class="popup-input-label">Email address</p>
+                    <input
+                        value=""
+                        placeholder="Eg. john@gmail.com"
+                        class="popup-input-box"
+                    />
+                </article>
+                <article class="popup-input">
+                    <p class="popup-input-label">Password</p>
+                    <input
+                        value=""
+                        placeholder="Enter your password"
+                        class="popup-input-box"
+                    />
+                </article>
+                <button id="" class="index-button popup-button">
+                    Log in
+                </button>
+            </section>
+        </section>
+        <script src="static/js/index.js"></script>
     </body>
 </html>
