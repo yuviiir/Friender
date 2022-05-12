@@ -24,6 +24,7 @@ function initalizeForm() {
                 placeholder: "Enter your password",
                 display: "Password",
                 error: "Please enter a valid password",
+                type: "password",
                 validation: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/
             }
         },
@@ -62,6 +63,7 @@ function initalizeForm() {
                 placeholder: "Enter your password",
                 display: "Password",
                 error: "Please enter a valid password",
+                type: "password",
                 validation: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/
             }
         }
@@ -79,7 +81,8 @@ function initalizeForm() {
             let input = document.createElement('input');
             input.className = "popup-input-box";
             input.placeholder = formData[type][key].placeholder;
-            input.onkeyup = () => setValue(input.value, key, type)
+            input.onkeyup = () => setValue(input.value, key, type);
+            input.type = formData[type][key].type ? formData[type][key].type : "text" ;
             let section = document.createElement('section');
             section.id = `${type}${key}`;
             section.className = "input-box-invalid-wrapper";
