@@ -13,10 +13,6 @@ app.get("/home", (req, res) => {
     res.sendFile(path.resolve(__dirname, "static/templates/home.html"));
 });
 
-app.get("/anotherPage", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "static/templates/anotherPage.html"));
-});
-
 app.get("/404", (req, res) => {
     res.sendFile(path.resolve(__dirname, "static/templates/404.html"));
 });

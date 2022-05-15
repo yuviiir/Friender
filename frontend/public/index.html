@@ -4,9 +4,54 @@
         <title>Friender</title>
         <meta charset="UTF-8" />
         <link rel="stylesheet" href="static/css/styles.css" />
-        <script src="static/js/index.js"></script>
+        <link rel="stylesheet" href="static/css/index.css" />
     </head>
     <body>
-
+        <header>
+            <nav>
+                <aside class="nav-logo">
+                    <h1>Friender</h1>
+                </aside>
+                <aside class="nav-buttons">
+                    <ul>  
+                        <li>
+                            <a onclick="openPopup('login')"> Login </a>  
+                        </li>  
+                        <li>  
+                            <a onclick="openPopup('create')"> Sign up </a>  
+                        </li>  
+                    </ul>  
+                </aside>
+            </nav>
+        </header>
+        <section id="overlay" class="overlay"></section>
+        <section id="loginPopup" class="popup">
+            <section class="popup-controls">
+                <button id="popupclose" class="popup-close" onclick="closePopup('login')">X</button>
+            </section>
+            <section class="popup-content">
+                <h2 class="popup-heading">Log in</h2>
+                <section id="loginPopupInputs"></section>
+                <button id="loginSubmit" class="popup-button" onclick="submit('login')">
+                    Log in
+                </button>
+            </section>
+        </section>
+        <section id="createPopup" class="popup">
+            <section class="popup-controls">
+                <button id="popupclose" class="popup-close" onclick="closePopup('create')">X</button>
+            </section>
+            <section class="popup-content">
+                <h2 class="popup-heading">Create an account</h2>
+                <section id="createPopupInputs"></section>
+                <button id="createSubmit" class="popup-button" onclick="submit('create')">
+                    Create account
+                </button>
+            </section>
+        </section>
+        <footer>
+            <h3>Find friends, and have you experiences transcend!</h3>
+        </footer>
+        <script src="static/js/index.js"></script>
     </body>
 </html>
