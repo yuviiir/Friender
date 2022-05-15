@@ -7,15 +7,23 @@
         <link rel="stylesheet" href="static/css/index.css" />
     </head>
     <body>
-        <section class="index-button-section">
-            <h1 class="index-heading-text">Friender</h1>
-            <button class="index-button" onclick="openPopup('login')">
-                Log in
-            </button>
-            <button class="index-button" onclick="openPopup('create')">
-                Create an account
-            </button>
-        </section>
+        <header>
+            <nav>
+                <aside class="nav-logo">
+                    <h1>Friender</h1>
+                </aside>
+                <aside class="nav-buttons">
+                    <ul>  
+                        <li>
+                            <a onclick="openPopup('login')"> Login </a>  
+                        </li>  
+                        <li>  
+                            <a onclick="openPopup('create')"> Sign up </a>  
+                        </li>  
+                    </ul>  
+                </aside>
+            </nav>
+        </header>
         <section id="overlay" class="overlay"></section>
         <section id="loginPopup" class="popup">
             <section class="popup-controls">
@@ -24,7 +32,7 @@
             <section class="popup-content">
                 <h2 class="popup-heading">Log in</h2>
                 <section id="loginPopupInputs"></section>
-                <button id="loginSubmit" class="index-button popup-button" onclick="submit('login')">
+                <button id="loginSubmit" class="popup-button" onclick="submit('login')">
                     Log in
                 </button>
             </section>
@@ -36,11 +44,14 @@
             <section class="popup-content">
                 <h2 class="popup-heading">Create an account</h2>
                 <section id="createPopupInputs"></section>
-                <button id="createSubmit" class="index-button popup-button" onclick="submit('create')">
+                <button id="createSubmit" class="popup-button" onclick="submit('create')">
                     Create account
                 </button>
             </section>
         </section>
+        <footer>
+            <h3>Find friends, and have you experiences transcend!</h3>
+        </footer>
         <script src="static/js/index.js"></script>
     </body>
 </html>
