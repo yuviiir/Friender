@@ -8,58 +8,6 @@ body {
     height: 98vh;
     background-size: cover;  
 }
- 
-header {   
-    top: 0;  
-    height: 10%;  
-    box-shadow: 0 0 25px 0 black;  
-} 
-h1 {
-    font-family:Georgia, 'Times New Roman', Times, serif;
-}
-
-header, footer {
-    display: flex;  
-    background-color: #ffe497; 
-    position: fixed;  
-    left: 0;  
-    right: 0;  
-    align-items: center;  
-}
-
-footer {
-    bottom: 0;  
-    height: 10%;
-    justify-content: center;
-    box-shadow: 0 25px 25px 25px black;  
-}
-
-header * {  
-    display: inline;  
-}  
-
-header li {  
-    margin: 20px;  
-} 
-
-header li a {  
-    color: black;  
-    text-decoration: none;  
-} 
-header li:hover {  
-    color: #ecba2e;  
-    text-decoration: none;  
-    cursor: pointer;
-} 
-
-.nav-logo {
-    width: 80%;
-    padding-left: 2em;
-}
-
-.nav-buttons {
-    width: 20%;
-}
 
 .overlay {
     display: none;
