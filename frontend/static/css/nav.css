@@ -4,6 +4,10 @@ header {
     box-shadow: 0 0 25px 0 black;  
 } 
 
+h1 {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
 header, footer {
     display: flex;  
     background-color: #ffe497; 
