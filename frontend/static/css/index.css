@@ -14,6 +14,9 @@ header {
     height: 10%;  
     box-shadow: 0 0 25px 0 black;  
 } 
+h1 {
+    font-family:Georgia, 'Times New Roman', Times, serif;
+}
 
 header, footer {
     display: flex;  
@@ -26,8 +29,9 @@ header, footer {
 
 footer {
     bottom: 0;  
-    height: 5%;
+    height: 10%;
     justify-content: center;
+    box-shadow: 0 25px 25px 25px black;  
 }
 
 header * {  
@@ -41,6 +45,11 @@ header li {
 header li a {  
     color: black;  
     text-decoration: none;  
+} 
+header li:hover {  
+    color: #ecba2e;  
+    text-decoration: none;  
+    cursor: pointer;
 } 
 
 .nav-logo {
