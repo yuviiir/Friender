@@ -18,14 +18,18 @@ router.get("/test", (req, res) => {
 
 router.get("/genderOptions", (req, res) => {
   serviceFriender.getAllGenders().then((data) => {
-    res.send(data);
+    res.json(data);
   }, (error) => {
     res.status(500).send({error: "There was an error completing this request."});
   }) 
 });
 
 router.get("/interestOptions", (req, res) => {
-  res.send("Friender backend server");
+  serviceFriender.getAllInterests().then((data) => {
+    res.json(data);
+  }, (error) => {
+    res.status(500).send({error: "There was an error completing this request."});
+  }) 
 });
 
 router.post("/signUp", (req, res) => {
@@ -39,7 +43,7 @@ router.post("/signUp", (req, res) => {
   serviceFriender.signUp(firstName, lastName, email, password).then((data) => {
     res.send(data);
   }, (error) => {
-    res.status(404).send(error);
+    res.status(500).send({error: "There was an error completing this request."});
   }) 
 })
 
@@ -52,7 +56,7 @@ router.post("/login", (req, res) => {
   serviceFriender.getLogins(email, password).then((data) => {
     res.send(data);
   }, (error) => {
-    res.status(404).send(error);
+    res.status(500).send({error: "There was an error completing this request."});
   }) 
 });
 
