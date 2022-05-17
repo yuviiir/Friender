@@ -44,12 +44,12 @@ body{
     overflow: auto;
     width: 150px;
     height:170px ;
-    
+    overflow: hidden;
 }
 
 #profile-img{
     width: 150px;
-    height:150px ;
+    height:150px;
 }
 
 img:hover {

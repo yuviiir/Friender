@@ -4,12 +4,14 @@ const getMatches = () =>
     [
     {
         name:"ruby",
+        userID: "1",
         location:"Johannesburg",
         img_url:"static/images/pr.jpg",
         bio: "I Like to live and laugh"
     },
     {
         name:"James",
+        userID: "2",
         location:"Cape Tow",
         img_url:"static/images/pr.jpg",
         bio: "I love long walks and music"
@@ -42,6 +44,7 @@ const addMatches = (matches)=> {
     {
        const section= document.createElement('section')
        section.className='match-item'
+       section.onclick = () => openChatPopup(matches[i].userID);
        const profileImg = document.createElement('img');
        profileImg.src=matches[i].img_url
        profileImg.id='profile-img';
@@ -50,6 +53,10 @@ const addMatches = (matches)=> {
        console.log(section + "jshdhfj")
        console.log(section + '');
     }
+}
+
+function openChatPopup(userID) {
+    console.log(userID)
 }
 
 window.onload=addMatches(getMatches());
