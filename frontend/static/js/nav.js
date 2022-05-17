@@ -52,6 +52,10 @@ function loadNav() {
     nav.appendChild(aside);
     let ul = document.createElement("ul");
     ul.className = "nav-buttons";
+    let footer = document.createElement("footer");
+    let h3 = document.createElement("h3");
+    h3.innerText = "Find friends, and have you experiences transcend!";
+    footer.appendChild(h3);
 
     linksArray.map((link) => {
         let li = document.createElement("li");
@@ -68,6 +72,7 @@ function loadNav() {
     nav.appendChild(ul);
     header.appendChild(nav);
     body.appendChild(header);
+    body.appendChild(footer);
 }
 
 loadNav();
