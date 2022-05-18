@@ -5,6 +5,8 @@ const app = express();
 
 app.use("/static", express.static(path.resolve(__dirname, "static")));
 
+app.use('/favicon.ico', express.static('static/images/friender.ico'));
+
 app.get("/", (req, res) => {
     res.sendFile(path.resolve(__dirname, "public/index.html"));
 });
