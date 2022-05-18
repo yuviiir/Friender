@@ -1,4 +1,7 @@
+// const axios = require('axios').default;
+
 let overlay = document.getElementById("overlay");
+axios.defaults.crossDomain = true;
 let popup = {
     login: document.getElementById("loginPopup"),
     create: document.getElementById("createPopup"),
@@ -25,7 +28,7 @@ function initalizeForm() {
                 display: "Password",
                 error: "Please enter a valid password",
                 type: "password",
-                validation: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/
+                validation: "/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/"
             }
         },
         create: {
@@ -111,7 +114,7 @@ function checkValidity(type) {
 
     for (let key in formData[type]) {
         if (formData[type][key].value) {
-            formData[type][key].isValid = formData[type][key].validation.test(formData[type][key].value);
+            formData[type][key].isValid = formData[type][key].validation ? formData[type][key].validation.test(formData[type][key].value) : true;
         }
         else {
             formData[type][key].isValid = false;
@@ -139,6 +142,43 @@ function closePopup (type) {
 
 function submit(type) {
     let payload = formData[type];
-    console.log("submit", payload)
+    let data = new URLSearchParams ({
+        email: payload.email.value,
+        password: payload.password.value
+    });
+
+    const dataSignUp = {
+        firstName: payload.fName.value,
+        lastName: payload.lName.value,
+        email: payload.email.value,
+        password: payload.password.value
+    }
+
+    if (type == 'login') {
+        axios({
+            method: "GET",
+            url: `http://localhost:3002/api/login/`,
+            params: data
+        }).then((data) => {
+            console.log(data)
+        }).catch((err) => {
+            console.log("help", err);
+        })
+    }
+    else
+    {
+        axios({
+            method: "POST",
+            url: `http://localhost:3002/api/signUp/`,
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            data: dataSignUp
+        }).then((data) => {
+            console.log(data)
+        }).catch((err) => {
+            console.log("help", err);
+        })
+    }
     // window.location.href = "/home"
 }
