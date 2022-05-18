@@ -1,0 +1,65 @@
+@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Pacifico&display=swap');
+
+body{
+    background-color: #f0dfb3;
+    margin-top: 15%;
+}
+
+#nav-buttons-right {
+    padding-right: 10em;
+    right:0;
+    float:100%;
+}
+
+.matches-body{
+    display: flex;
+    justify-content:flex-start;
+}
+
+.match-text{
+    font-family: 'Pacifico', cursive;
+    font-size: 100px;
+    padding-top: 10%;
+    padding-bottom: 10%;
+    transform: rotate(-45deg);
+    margin-left: 5%;
+}
+
+.all-matches-container{
+    background-color:#ffe497; 
+    display: flex;
+    margin-right: 5%;
+    border-radius: 10px 10px 10px 10px;
+    right:0;
+    justify-content:flex-start;
+    flex-wrap: wrap;
+}
+
+.match-item{
+    display: inline;
+    right:0;
+    padding: 50px;
+    margin: 5px;
+    background-color: white;
+    overflow: auto;
+    width: 150px;
+    height:170px ;
+    overflow: hidden;
+}
+
+#profile-img{
+    width: 150px;
+    height:150px;
+}
+
+img:hover {
+    cursor: pointer;
+    padding: 50px;
+    transition: transform .2s;
+    width: 180px;
+    height: 180px;
+    margin: 0 auto;
+    -ms-transform: scale(1.5); /* IE 9 */
+    -webkit-transform: scale(1.5); /* Safari 3-8 */
+    transform: scale(1.5); 
+}

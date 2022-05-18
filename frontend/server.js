@@ -13,12 +13,16 @@ app.get("/home", (req, res) => {
     res.sendFile(path.resolve(__dirname, "static/templates/home.html"));
 });
 
-app.get("/anotherPage", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "static/templates/anotherPage.html"));
-});
-
 app.get("/404", (req, res) => {
     res.sendFile(path.resolve(__dirname, "static/templates/404.html"));
+});
+
+app.get("/profileSetup", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "static/templates/profileSetup.html"));
+});
+
+app.get("/matches", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "static/templates/matches.html"));
 });
 
 app.listen(process.env.PORT || 3001, () => console.log(`Frontend server running on port 3001...`));
