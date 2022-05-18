@@ -12,7 +12,7 @@ let allLinksArray = [
     {
         name: "Profile",
         href: "/profile"
-    },
+    }, 
     {
         name: "Logout",
         onclick: () => logout()

@@ -1,3 +1,6 @@
+@import url('http://fonts.cdnfonts.com/css/better-saturday');
+@import url('http://fonts.cdnfonts.com/css/abhaya-libre-2');
+
 header {   
     top: 0;  
     height: 10%;  
@@ -5,7 +8,9 @@ header {
 } 
 
 h1 {
-    font-family: Georgia, 'Times New Roman', Times, serif;
+    /* font-family: Georgia, 'Times New Roman', Times, serif; */
+    font-family: 'Better Saturday', sans-serif;
+    font-size: 2vw;
 }
 
 header, footer {
@@ -21,6 +26,9 @@ footer {
     bottom: 0;  
     height: 5%;
     justify-content: center;
+    font-family: 'Abhaya Libre', sans-serif;
+    font-weight: 400;
+    font-size: 1vw;
 }
 
 header * {  
@@ -43,6 +51,11 @@ header li a {
     color: black;  
     text-decoration: none;  
     cursor: pointer;
+    position:relative;top: 0.9cm;
+    font-family: 'Abhaya Libre', sans-serif;
+    font-weight: 400;
+    font-size: 1vw;
+
 } 
 
 .nav-logo {

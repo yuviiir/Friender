@@ -13,6 +13,10 @@ app.get("/home", (req, res) => {
     res.sendFile(path.resolve(__dirname, "static/templates/home.html"));
 });
 
+app.get("/profileSetup", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "static/templates/profileSetup.html"));
+});
+
 app.get("/matches", (req, res) => {
     res.sendFile(path.resolve(__dirname, "static/templates/matches.html"));
 });
