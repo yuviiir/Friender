@@ -9,10 +9,6 @@ body{
     align-items: center;
 }
 
-.picture-section{
-    
-}
-
 .button-section {
     width: 100%;
     padding-top: 1em;
@@ -23,8 +19,7 @@ body{
 }
 
 .details-section{
-    min-width: 250px;
-    height: 334px;
+    width: 300px;
     text-align: center;
     padding: 0 1em;
 }
@@ -33,9 +28,36 @@ body{
     margin: 0;
 }
 
+.bio-detail {
+    border: 2px solid black;
+    border-radius: 1em;
+    padding: 1em;
+    margin: 1em;
+    background-color: #ffe497;
+}
+
 .profile-image {
     width: 250px;
     height: 250px;
-    background-repeat: no-repeat;
-    background-size: contain;
+    object-fit: cover;
+}
+
+.interests-details{
+    margin: 1em;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+}
+
+.interest {
+    border: 2px solid black;
+    border-radius: 0.5em;
+    padding: 0.5em;
+    width: 40%;
+    margin-bottom: 1em;
+    background-color: #ffe497;
+}
+
+.profile {
+    display: flex;
 }

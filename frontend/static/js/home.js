@@ -2,8 +2,8 @@ let potentialFriends = [
     {
         userID: 1,
         name: "Yuvir Sharma",
-        interests: ["Dogs", "One Direction", "Marvel", "F1", "Taylor Swift"],
-        bio: "This is a bio. Lol.",
+        interests: ["Dogs", "Marvel", "F1", "Taylor Swift"],
+        bio: "This is a bio. Lol. wefwebifwebof webiowef woiefbowef  nwebwenv  weoivwebwe vnvwpewvep heicneocepecn",
         age: 21,
         profilePicture: "static/images/profilePictures/profile1.png"
     },
@@ -63,6 +63,19 @@ function renderNextUser() {
         nameDetail.className = "name-detail";
         nameDetail.innerText = nextUser.name + ", " + nextUser.age
         detailsSection.appendChild(nameDetail);
+        let bioDetail = document.createElement("section");
+        bioDetail.className = "bio-detail";
+        bioDetail.innerText = nextUser.bio;
+        detailsSection.appendChild(bioDetail);
+        let interestsDetails = document.createElement("article");
+        interestsDetails.className = "interests-details";
+        nextUser.interests.map((interest) => {
+            let interestDetail = document.createElement("section");
+            interestDetail.className = "interest";
+            interestDetail.innerText = interest;
+            interestsDetails.appendChild(interestDetail);
+        });
+        detailsSection.appendChild(interestsDetails);
         mainSection.appendChild(pictureSection);
         mainSection.appendChild(detailsSection);
     }

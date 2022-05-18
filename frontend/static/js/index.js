@@ -1,5 +1,3 @@
-// const axios = require('axios').default;
-
 let overlay = document.getElementById("overlay");
 axios.defaults.crossDomain = true;
 let popup = {
@@ -7,8 +5,6 @@ let popup = {
     create: document.getElementById("createPopup"),
 }
 let formData = {};
-
-const bcrypt = dcodeIO.bcrypt;
 
 function initalizeForm() {
     formData = {
@@ -30,7 +26,7 @@ function initalizeForm() {
                 display: "Password",
                 error: "Please enter a valid password",
                 type: "password",
-                validation: "/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/"
+                validation: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/
             }
         },
         create: {
@@ -142,47 +138,38 @@ function closePopup (type) {
     popup[type].style.display = 'none';
 }
 
-bcrypt.hash("test", 10, function(err, hash) {
-
-});
-
 function submit(type) {
     let payload = {};
     for (let key in formData[type]) {
         payload[key] = formData[type][key].value;
     }
-    bcrypt.hash(payload.password, 10, function(err, hash) {
-        //api call goes here
-        payload.password = hash;
-        if (type == 'login') {
-            axios({
-                method: "GET",
-                url: `http://localhost:3002/api/login/`,
-                params: payload
-            }).then((data) => {
-                console.log(data)
-                sessionStorage.setItem("userDetails", data)
-            }).catch((err) => {
-                console.log("help", err);
-            })
-        }
-        else
-        {
-            axios({
-                method: "POST",
-                url: `http://localhost:3002/api/signUp/`,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                data: payload
-            }).then((data) => {
-                console.log(data)
-                sessionStorage.setItem("userDetails", data)
-            }).catch((err) => {
-                console.log("help", err);
-            })
-        }
-    });
+    if (type == 'login') {
+        axios({
+            method: "GET",
+            url: `http://localhost:3002/api/login/`,
+            params: payload
+        }).then((data) => {
+            console.log(data)
+            sessionStorage.setItem("userDetails", data)
+        }).catch((err) => {
+            console.log("help", err);
+        })
+    }
+    else {
+        axios({
+            method: "POST",
+            url: `http://localhost:3002/api/signUp/`,
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            data: payload
+        }).then((data) => {
+            console.log(data)
+            sessionStorage.setItem("userDetails", data)
+        }).catch((err) => {
+            console.log("help", err);
+        })
+    };
 
     // window.location.href = "/home"
 }
