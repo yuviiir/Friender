@@ -22,6 +22,9 @@ app.get("/profileSetup", (req, res) => {
 app.get("/matches", (req, res) => {
     res.sendFile(path.resolve(__dirname, "static/templates/matches.html"));
 });
+app.get("/profile", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "static/templates/profile.html"));
+});
 
 app.use(function(req,res){
     res.status(404).sendFile(path.resolve(__dirname, "static/templates/404.html"));
