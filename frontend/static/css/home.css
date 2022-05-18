@@ -1,0 +1,41 @@
+body{
+    background-color: #f0dfb3;
+}
+
+.home-wrapper {
+    display: flex;
+    justify-content: center;
+    height: 98vh;
+    align-items: center;
+}
+
+.picture-section{
+    
+}
+
+.button-section {
+    width: 100%;
+    padding-top: 1em;
+}
+
+.image-button {
+    float: right;
+}
+
+.details-section{
+    min-width: 250px;
+    height: 334px;
+    text-align: center;
+    padding: 0 1em;
+}
+
+.name-detail {
+    margin: 0;
+}
+
+.profile-image {
+    width: 250px;
+    height: 250px;
+    background-repeat: no-repeat;
+    background-size: contain;
+}

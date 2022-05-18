@@ -5,6 +5,8 @@ let popup = {
 }
 let formData = {};
 
+const bcrypt = dcodeIO.bcrypt;
+
 function initalizeForm() {
     formData = {
         login: {
@@ -137,8 +139,19 @@ function closePopup (type) {
     popup[type].style.display = 'none';
 }
 
+bcrypt.hash("test", 10, function(err, hash) {
+
+});
+
 function submit(type) {
-    let payload = formData[type];
+    let payload = {};
+    for (let key in formData[type]) {
+        payload[key] = formData[type][key].value;
+    }
+    bcrypt.hash(payload.password, 10, function(err, hash) {
+        //api call goes here
+        payload.password = hash;
+    });
     console.log("submit", payload)
     // window.location.href = "/home"
 }
