@@ -7,12 +7,10 @@ router.get("/", (req, res) => {
 });
 
 router.get("/test", (req, res) => {
-  let email = "pieterk@bbd.co.za";
-  let password = "123";
-  serviceFriender.getLogins(email, password).then((data) => {
+  serviceFriender.test().then((data) => {
     res.send(data);
   }, (error) => {
-    res.status(404).send(error);
+    res.status(500).send({error: "There was an error completing this request."});
   }) 
 });
 
@@ -92,7 +90,11 @@ router.post("/like", (req, res) => {
     friendId
    } = req.body;
 
-  res.status(418).send("Don't get ahead of yourself.");
+  serviceFriender.likeFriend(userId, friendId).then((data) => {
+    res.send(data);
+  }, (error) => {
+    res.status(500).send({error: "There was an error completing this request."});
+  }) 
 });
 
 // Messages API may change to sockets:
