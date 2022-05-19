@@ -9,7 +9,7 @@ body {
 .all-info-container {
     display: flex;
     width: 44vh;
-    height: 44vh;
+    height: 56vh;
     align-items: center;
     flex-direction:column;
 }
@@ -17,20 +17,43 @@ body {
     display: flex;
     align-items: center;
     flex-direction:column;
+    font-size:smaller;
+    font-family: 'Better Saturday', sans-serif;
+    text-align: center;
 }
+
+
+ #main-info-Age{
+    font-size: 2vw;
+    font-family: 'Abhaya Libre', sans-serif;
+    text-align: center;
+}
+
+#main-info-id{
+    display: flex;
+    align-items: center;
+    flex-direction:column;
+    font-size: 4vw;
+    font-family: 'Better Saturday', sans-serif;
+    text-align: center;
+} 
+
+
 .main-info{
     font-size: 40px;
     margin: 0%;
 }
+
+
 .bio {
-    border-color: black;
-    border-style: solid;
-    border-radius: 10px  10px  10px  10px;
-    width: 40vh;
-    height: 10vh;
-    margin: 5%;
-    margin-left: 5%;
-    border-width: thin;
+    border: none;
+    border-radius: 1em;
+    width: 20em;
+    padding: 1em;
+    margin: 2%;
+    background-color: #ffe497;
+    font-family: 'Abhaya Libre', sans-serif;
+    font-size: 18px;
 }
 .grid-container {
     display: grid;
@@ -45,17 +68,21 @@ body {
 .interests-buttons-container{
     display: grid;
     grid-template-columns: 13vh 13vh;
+    column-gap: 60px;
 
 }
 .interest_button{
     height: 48px;
-    width: 110px;
+    width: 150px;
+    text-align: center;
     color: black;
     background: #ffe497;
     margin-top: 1em;
     border: none;
     border-radius: 10px;
     cursor: pointer;
+    font-family: 'Abhaya Libre', sans-serif;
+    font-size: 15px;
   }
   .show-me-button {
       margin:3%;
@@ -73,10 +100,12 @@ body {
   .interest-title {
       margin: 1%;
       font-size: large;
+      font-family: 'Abhaya Libre', sans-serif;
   }
   .show-me-container {
     display: grid;
     grid-template-columns: 13vh 13vh;
+    gap:60px
   }
 
   .top-left {

@@ -1,38 +1,19 @@
 let overlay = document.getElementById("overlay");
 let popup = document.getElementById("matchPopup");
 let image = document.getElementById("popupImage");
-let potentialFriends = [
-    {
-        userId: 1,
-        firstName: "Yuvir",
-        lastName: "Sharma",
-        interests: ["Dogs", "Marvel", "F1", "Taylor Swift"],
-        bio: "This is a bio. Lol. wefwebifwebof webiowef woiefbowef  nwebwenv  weoivwebwe vnvwpewvep heicneocepecn",
-        age: 21,
-        profilePicture: "static/images/profilePictures/profile1.png"
-    },
-    {
-        userId: 1,
-        firstName: "Jared",
-        lastName: "Mcmillan",
-        interests: ["Cats", "Movies", "DC", "Gaming"],
-        bio: "Hello, my name is Jerrry",
-        age: 23,
-        profilePicture: "static/images/profilePictures/profile2.png"
-    },
-    {
-        userId: 1,
-        firstName: "Lorde",
-        lastName: "Antonoff",
-        interests: ["Lizards", "TV", "F1", "Lorde"],
-        bio: "I am my mothers child *shhhh*",
-        age: 22,
-        profilePicture: "static/images/profilePictures/profile3.png"
-    }
-]
+let potentialFriends = []
 
-function getPotentialFriends() {
-    // get potential friends api
+function getPotentialFriends(userId) {
+        axios({
+            method: "GET",
+            url: `http://localhost:3002/api/getFriends/`,
+            params: {userId: userId}
+        }).then((res) => {
+            potentialFriends = res.data
+            renderNextUser()
+        }).catch((err) => {
+            console.log("help", err);
+        })
 }
 
 function renderNextUser() {
@@ -49,7 +30,7 @@ function renderNextUser() {
         pictureSection.className = "picture-section";
         let profileImage = document.createElement("img");
         profileImage.className = "profile-image";
-        profileImage.src = nextUser.profilePicture;
+        profileImage.src = nextUser.profilePictureURL;
         pictureSection.appendChild(profileImage);
         let buttonsSection = document.createElement("section");
         buttonsSection.className = "button-section";
@@ -79,12 +60,12 @@ function renderNextUser() {
         detailsSection.appendChild(bioDetail);
         let interestsDetails = document.createElement("article");
         interestsDetails.className = "interests-details";
-        nextUser.interests.map((interest) => {
-            let interestDetail = document.createElement("section");
-            interestDetail.className = "interest";
-            interestDetail.innerText = interest;
-            interestsDetails.appendChild(interestDetail);
-        });
+        let interestDetail = document.createElement("section");
+        interestDetail.className = "interest";
+        interestDetail.innerText = nextUser.interestDescription;
+        interestsDetails.appendChild(interestDetail);
+        // nextUser.interests.map((interest) => {
+        // });
         detailsSection.appendChild(interestsDetails);
         mainSection.appendChild(pictureSection);
         mainSection.appendChild(detailsSection);

@@ -1,14 +1,14 @@
-// let profile = {
-//     id:4,
-//     name:"Mark",
-//     age:19,
-//     location:"Johannesburg",
-//     bio:"I love going out once in a while to have a great time with friends. I love dancing and I occasionally run on weekends too.",
-//     interests: ["running", "animals", "napping", "swimming"],
-//     show_me: ["men", "transgender"],
-//     img_url:"static/images/pp.png"
-// }
-let profile=null;
+let profile = {
+    id:4,
+    name:"Mark",
+    age:19,
+    location:"Johannesburg",
+    bio:"I love going out once in a while to have a great time with friends. I love dancing and I occasionally run on weekends too.",
+    interests: ["running", "animals", "napping", "swimming"],
+    show_me: ["men", "transgender"],
+    img_url:"static/images/pp.png"
+}
+// let profile=null;
 const getProfileData = () => {
     axios ({
         method : "GET",
@@ -26,8 +26,10 @@ const getProfileData = () => {
 }
 
 const populateProfileData = () => {
-    const main_info_section = document.getElementById('main-info-id')
-    main_info_section.appendChild(document.createTextNode(`${profile.name} , ${profile.age}`))
+    const main_info_name = document.getElementById('main-info-id')
+    main_info_name.appendChild(document.createTextNode(`${profile.name}`))
+    const main_info_age = document.getElementById('main-info-Age')
+    main_info_age.appendChild(document.createTextNode(` ${profile.age}`))
     const bio_section = document.getElementById('bio-id')
     bio_section.appendChild(document.createTextNode(`${profile.bio}`))
     const interests_button_container = document.getElementById('interests-buttons-id')
@@ -51,5 +53,6 @@ const populateProfileData = () => {
 
     }
 }
+
 
 window.onload=populateProfileData()
