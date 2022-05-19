@@ -2,16 +2,17 @@ const express = require("express");
 const path = require("path");
 const http = require('http');
 const socketio = require('socket.io');
-
 const app = express();
 const server = http.createServer(app);
 const io = socketio(server);
+const { PORT } = require("./config")
 const formatMessage = require('./static/js/messages');
-
 
 app.use("/static", express.static(path.resolve(__dirname, "static")));
 
 app.use('/favicon.ico', express.static('static/images/friender.ico'));
+
+app.use('/config.js', express.static('config.js'));
 
 app.get("/", (req, res) => {
     res.sendFile(path.resolve(__dirname, "public/index.html"));
@@ -44,6 +45,4 @@ io.on('connection', socket => {
     })
 });
 
-
-server.listen(process.env.PORT || 3001, () => console.log(`Frontend server running on port 3001...`));
-
+server.listen(PORT || 3001, () => console.log(`Frontend server running on port ${PORT}...`));
