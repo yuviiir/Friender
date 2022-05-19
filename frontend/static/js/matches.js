@@ -44,35 +44,32 @@ function closePopup(){
     document.getElementById('overlay').style.display = 'none';
     document.getElementById('chatPopup').style.display = "none";
 }
+let matches= null;
 const getMatches = () =>
 {
-    const matches =
-    [
-    {
-        name:"ruby",
-        userID: "1",
-        location:"Johannesburg",
-        img_url:"static/images/pp.png",
-        bio: "I Like to live and laugh"
-    },
-    {
-        name:"James",
-        userID: "2",
-        location:"Cape Tow",
-        img_url:"static/images/pp.png",
-        bio: "I love long walks and music"
-    }
-    ];
-    return matches;
+    axios({
+        method: "GET",
+        url: `http://localhost:3002/api/getMatches`,
+        params: {
+           userId: JSON.parse(sessionStorage.getItem("userDetails")).userId,
+        }
+    }).then((data) => {
+        matches=data.data;
+        populateMatches();
+
+    }).catch((err) => {
+        overlay2.style.display = 'none';
+        console.log("help", err);
+    })
 }
 
-const addMatches = (matches)=> {
+const populateMatches = ()=> {
 
     for (let i=0; i <matches.length; i++)
     {
        const section= document.createElement('section')
        section.className='match-item'
-       section.onclick = () => openChatPopup(matches[i].userID, matches[i].name);
+       section.onclick = () => openChatPopup(matches[i].userId, matches[i].firstName);
        const profileImg = document.createElement('img');
        profileImg.src=matches[i].img_url
        profileImg.className='profile-img';
@@ -84,5 +81,5 @@ const addMatches = (matches)=> {
 
 
 
-window.onload=addMatches(getMatches());
+window.onload=getMatches();
 console.log(getMatches());

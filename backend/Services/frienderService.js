@@ -156,7 +156,7 @@ module.exports.getFriends = function(userId) {
       }
       else
       {
-        result([])
+        resolve([])
       }
     });
   });
@@ -164,17 +164,18 @@ module.exports.getFriends = function(userId) {
 
 module.exports.getMatches = function(userId) { 
   return new Promise(function(resolve, reject) {
-    let SQL = `SELECT lu.userId 
+    let SQL = `SELECT lu.userId ,
     loginInDetails.firstName, 
     loginInDetails.email, 
     userProfileDetails.profilePictureURL, 
     userProfileDetails.bio, 
-    userProfileDetails.userAge, 
+    loginInDetails.userAge, 
     genderLookUp.genderDescription as 'lookingFor', 
     u.genderDescription as 'gender',
     group_concat(interests.interestDescription separator ', ') as interests
     FROM likedUsers lu 
     INNER JOIN userProfileDetails ON userProfileDetails.userId = lu.LikedUser 
+    INNER JOIN loginInDetails ON loginInDetails.userId = userProfileDetails.userId
     LEFT JOIN userInterest ON userInterest.userId = userProfileDetails.userId
     LEFT JOIN interests ON interests.interestId = userInterest.interestId
     LEFT JOIN genderLookUp ON genderLookUp.genderID = userProfileDetails.lookingFor 
