@@ -118,7 +118,22 @@ module.exports.getFriends = function(userId) {
 
 module.exports.getMatches = function(userId) { 
   return new Promise(function(resolve, reject) {
-    let SQL = `SELECT userId FROM likedUsers lu WHERE EXISTS (SELECT LikedUser FROM likedUsers lu2 WHERE lu2.userId = '${userId}' AND lu2.LikedUser = lu.userID) AND lu.LikedUser = '${userId}'`
+    let SQL = `SELECT lu.userId 
+    loginInDetails.firstName, 
+    loginInDetails.email, 
+    userProfileDetails.profilePictureURL, 
+    userProfileDetails.bio, 
+    userProfileDetails.userAge, 
+    genderLookUp.genderDescription as 'lookingFor', 
+    u.genderDescription as 'gender',
+    group_concat(interests.interestDescription separator ', ') as interests
+    FROM likedUsers lu 
+    INNER JOIN userProfileDetails ON userProfileDetails.userId = lu.LikedUser 
+    LEFT JOIN userInterest ON userInterest.userId = userProfileDetails.userId
+    LEFT JOIN interests ON interests.interestId = userInterest.interestId
+    LEFT JOIN genderLookUp ON genderLookUp.genderID = userProfileDetails.lookingFor 
+    LEFT JOIN genderLookUp u ON genderLookUp.genderID = userProfileDetails.userId 
+    WHERE EXISTS (SELECT LikedUser FROM likedUsers lu2 WHERE lu2.userId = '${userId}' AND lu2.LikedUser = lu.userID) AND lu.LikedUser = '${userId}'`
     dbConnection.query(SQL, function (err, result) {
       if (err) {
         console.error(err);
