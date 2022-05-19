@@ -5,6 +5,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
 const urlEncoded = bodyParser.urlencoded();
+const bcrypt = require('bcryptjs');
 
 router.get("/", (req, res) => {
   res.send("Friender backend server");
@@ -51,7 +52,9 @@ router.post("/signUp", (req, res) => {
    } = req.body
    ;
 
-  serviceFriender.signUp(firstName, lastName, email, password).then((data) => {
+   let passwordHash = bcrypt.hashSync(password, 10);
+
+  serviceFriender.signUp(firstName, lastName, email, passwordHash).then((data) => {
     res.send(data);
   }, (error) => {
     res.status(500).send({error: "There was an error completing this request."});
@@ -62,7 +65,7 @@ router.get("/login/", (req, res) => {
   let  {
     email, 
     password
-   } = req.body
+   } = req.query
 
   serviceFriender.getLogins(email, password).then((data) => {
     res.send(data);
@@ -71,30 +74,45 @@ router.get("/login/", (req, res) => {
   })
 });
 
-router.get("/matches/:userId", (req, res) => {
-  let userId = req.params.userId;
-
-  res.status(418).send("No matches for you! No one likes you.");
+router.get("/getFriends", (req, res) => {
+  let userId = req.query.userId;
+  serviceFriender.getFriends(userId).then((data) => { res.send(data)}, (error) => {
+    res.status(500).send({error: "There was an error completing this request."});
+  });
 });
 
-router.get("/userProfileDetails/:userId", (req, res) => {
-  let userId = req.params.userId;
+router.get("/getUserProfileDetails", (req, res) => {
+  let userId = req.query.userId;
 
-  res.status(418).send("Patience chile...");
+  serviceFriender.getUserProfileDetails(userId).then((data) => {
+    res.send(data)
+  }, (err) => res.status(500).send({error: "There was an error completing this request."}))
 });
 
-router.post("/userProfileDetails/:userId", (req, res) => {
-  let userId = req.params.userId;
-  let details = req.body;
+router.post("/postUserProfileDetails", (req, res) => {
+  let userId = req.query.userId;
+  let profilePictureURL = req.query.profilePictureURL;
+  let bio = req.query.bio;
+  let userAge = req.query.userAge;
+  let lookingFor = req.query.lookingFor;
+  let gender = req.query.gender;
 
-  res.status(418).send("Ha, as if.");
+  serviceFriender.postUserProfileDetails(profilePictureURL, bio, userAge, lookingFor, gender, userId).then((data) => {
+    res.send(data)
+  }, (err) => res.status(500).send({error: "There was an error completing this request."}))
 });
 
-router.patch("/userProfileDetails/:userId", (req, res) => {
-  let userId = req.params.userId;
-  let details = req.body;
+router.patch("/updatUserProfileDetails/:userId", (req, res) => {
+  let userId = req.query.userId;
+  let profilePictureURL = req.query.profilePictureURL;
+  let bio = req.query.bio;
+  let userAge = req.query.userAge;
+  let lookingFor = req.query.lookingFor;
+  let gender = req.query.gender;
 
-  res.status(418).send(";-)");
+  serviceFriender.updateUserProfileDetails(profilePictureURL, bio, userAge, lookingFor, gender, userId).then((data) => {
+    res.send(data)
+  }, (err) => res.status(500).send({error: "There was an error completing this request."}))
 });
 
 router.post("/like", (req, res) => {
@@ -112,11 +130,26 @@ router.post("/like", (req, res) => {
 
 // Messages API may change to sockets:
 
-router.get("/:userId/messages/:friendId", (req, res) => {
-  let friendId = req.params.friendId;
-  let userId = req.params.userId;
+router.post("insertInterest", (req, res) => {
+  let userId = req.query.friendId;
+  let interestId = req.query.userId;
 
-  res.status(418).send("Optimistic much?");
+  serviceFriender.insertInterests(userId, interestId).then((data) => {
+    res.send(data);
+  }, (error) => {
+    res.status(500).send({error: "There was an error completing this request."});
+  })
+});
+
+router.post("updateInterest", (req, res) => {
+  let userId = req.query.friendId;
+  let interestId = req.query.userId;
+
+  serviceFriender.updateInterests(userId, interestId).then((data) => {
+    res.send(data);
+  }, (error) => {
+    res.status(500).send({error: "There was an error completing this request."});
+  })
 });
 
 router.post("/message/:recipientId", (req, res) => {
