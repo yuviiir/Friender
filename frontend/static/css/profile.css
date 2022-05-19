@@ -8,8 +8,8 @@ body {
 }
 .all-info-container {
     display: flex;
-    width: 48vh;
-    height: 48vh;
+    width: 44vh;
+    height: 44vh;
     align-items: center;
     flex-direction:column;
 }
@@ -26,7 +26,7 @@ body {
     border-color: black;
     border-style: solid;
     border-radius: 10px  10px  10px  10px;
-    width: 44vh;
+    width: 40vh;
     height: 10vh;
     margin: 5%;
     margin-left: 5%;
@@ -39,17 +39,17 @@ body {
 }
 .profile-img {
     background-color: black;
-    width: 48vh;
-    height: 48vh;
+    width: 44vh;
+    height: 44vh;
 }
 .interests-buttons-container{
     display: grid;
-    grid-template-columns: 13vh 13vh 13vh;
+    grid-template-columns: 13vh 13vh;
 
 }
 .interest_button{
     height: 48px;
-    width: 100px;
+    width: 110px;
     color: black;
     background: #ffe497;
     margin-top: 1em;
@@ -71,12 +71,12 @@ body {
       cursor:pointer;
   }
   .interest-title {
-      margin: 0%;
+      margin: 1%;
       font-size: large;
   }
   .show-me-container {
-    display: flex;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: 13vh 13vh;
   }
 
   .top-left {
