@@ -1,7 +1,13 @@
 const express = require("express");
 const path = require("path");
+const http = require('http');
+const socketio = require('socket.io');
 
 const app = express();
+const server = http.createServer(app);
+const io = socketio(server);
+const formatMessage = require('./static/js/messages');
+
 
 app.use("/static", express.static(path.resolve(__dirname, "static")));
 
@@ -30,4 +36,14 @@ app.use(function(req,res){
     res.status(404).sendFile(path.resolve(__dirname, "static/templates/404.html"));
 });
 
-app.listen(process.env.PORT || 3001, () => console.log(`Frontend server running on port 3001...`));
+//run when the client connections
+
+io.on('connection', socket => {
+    socket.on('chatMessage', (txtmsg, name) =>{  
+        io.emit('message', formatMessage(name, txtmsg))
+    })
+});
+
+
+server.listen(process.env.PORT || 3001, () => console.log(`Frontend server running on port 3001...`));
+

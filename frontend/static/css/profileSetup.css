@@ -1,5 +1,5 @@
 body {
-    background-color: #FFF3AF;
+    background-color: #f0dfb3;
     background-blend-mode: darken;
     background-size: cover;
     display: flex;
@@ -133,7 +133,7 @@ body {
 } 
 
 .Interest_button_selected{
-    background-color: gold;
+    background-color: #FFC000;
   } 
 
  
