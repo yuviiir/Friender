@@ -65,6 +65,15 @@ function initalizeForm() {
                 error: "Please enter a valid password",
                 type: "password",
                 validation: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/
+            },
+            age: {
+                value: null,
+                isValid: false,
+                isTouched: false,
+                placeholder: "Enter your age",
+                display: "Age",
+                error: "Please enter a valid Age",
+                validation: /1[3-9]|[4-9]\d+|\d{3,}/
             }
         }
     };
@@ -145,11 +154,11 @@ function submit(type) {
     if (type == 'login') {
         axios({
             method: "GET",
-            url: `http://localhost:3002/api/login/`,
+            url: `http://localhost:3002/api/login`,
             params: payload
         }).then((data) => {
             console.log(data)
-            sessionStorage.setItem("userDetails", JSON.stringify(data))
+            sessionStorage.setItem("userDetails", JSON.stringify(data.data))
             window.location.href = "/home";
         }).catch((err) => {
             console.log("help", err);
@@ -158,14 +167,14 @@ function submit(type) {
     else {
         axios({
             method: "POST",
-            url: `http://localhost:3002/api/signUp/`,
+            url: `http://localhost:3002/api/signUp`,
             headers: {
                 'Content-Type': 'application/json',
             },
             data: payload
         }).then((data) => {
             console.log(data)
-            sessionStorage.setItem("userDetails", JSON.stringify(data))
+            sessionStorage.setItem("userDetails", JSON.stringify(data.data.userDetails))
             window.location.href = "/profileSetup";
         }).catch((err) => {
             console.log("help", err);

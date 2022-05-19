@@ -48,7 +48,7 @@ function renderNextUser() {
         detailsSection.className = "details-section";
         let nameDetail = document.createElement("h1");
         nameDetail.className = "name-detail";
-        nameDetail.innerText = `${nextUser.firstName} ${nextUser.lastName}`
+        nameDetail.innerText = nextUser.firstName;
         detailsSection.appendChild(nameDetail);
         let ageDetail = document.createElement("h1");
         ageDetail.className = "age-detail";
@@ -60,12 +60,13 @@ function renderNextUser() {
         detailsSection.appendChild(bioDetail);
         let interestsDetails = document.createElement("article");
         interestsDetails.className = "interests-details";
-        let interestDetail = document.createElement("section");
-        interestDetail.className = "interest";
-        interestDetail.innerText = nextUser.interestDescription;
-        interestsDetails.appendChild(interestDetail);
-        // nextUser.interests.map((interest) => {
-        // });
+        let interests = nextUser.interests.split(", ");
+        interests.map((interest) => {
+            let interestDetail = document.createElement("section");
+            interestDetail.className = "interest";
+            interestDetail.innerText = interest;
+            interestsDetails.appendChild(interestDetail);
+        });
         detailsSection.appendChild(interestsDetails);
         mainSection.appendChild(pictureSection);
         mainSection.appendChild(detailsSection);
@@ -73,10 +74,6 @@ function renderNextUser() {
 }
 
 function likeUser(userId) {
-    // like api
-    console.log("like", userId)
-    let isMatch = true;
-
     if (isMatch) {
         openPopup();
     }
@@ -90,7 +87,7 @@ function openMatchPopup() {
 function openPopup() {
     overlay.style.display = 'block';
     popup.style.display = 'block';
-    image.src = potentialFriends[0].profilePicture;
+    image.src = potentialFriends[0].profilePictureURL;
 }
 
 function closePopup() {
@@ -111,4 +108,4 @@ function nextUser() {
 }
 
 
-renderNextUser()
+getPotentialFriends(JSON.parse(sessionStorage.getItem("userDetails")).userId)

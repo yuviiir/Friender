@@ -91,11 +91,12 @@ router.get("/getUserProfileDetails", (req, res) => {
 });
 
 router.post("/postUserProfileDetails", (req, res) => {
-  let userId = req.query.userId;
-  let profilePictureURL = req.query.profilePictureURL;
-  let bio = req.query.bio;
-  let lookingFor = req.query.lookingFor;
-  let gender = req.query.gender;
+  let userId = req.body.userId;
+  let profilePictureURL = req.body.profilePictureURL;
+  let bio = req.body.bio;
+  let lookingFor = req.body.lookingFor;
+  let gender = req.body.gender;
+
 
   serviceFriender.postUserProfileDetails(profilePictureURL, bio, lookingFor, gender, userId).then((data) => {
     res.send(data)
@@ -130,10 +131,10 @@ router.post("/like", (req, res) => {
 
 // Messages API may change to sockets:
 
-router.post("insertInterest", (req, res) => {
-  let userId = req.query.userId;
-  let interests = req.query.interests
-
+router.post("/insertInterest", (req, res) => {
+  let userId = req.body.userId;
+  let interests = req.body.interests
+  
   serviceFriender.insertInterests(userId, interests).then((data) => {
     res.send(data);
   }, (error) => {

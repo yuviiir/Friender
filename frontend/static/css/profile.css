@@ -13,6 +13,7 @@ body {
     align-items: center;
     flex-direction:column;
 }
+
 .name-and-location {
     display: flex;
     align-items: center;
@@ -22,8 +23,7 @@ body {
     text-align: center;
 }
 
-
- #main-info-Age{
+#main-info-Age{
     font-size: 2vw;
     font-family: 'Abhaya Libre', sans-serif;
     text-align: center;

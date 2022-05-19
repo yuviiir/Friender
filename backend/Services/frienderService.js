@@ -154,6 +154,10 @@ module.exports.getFriends = function(userId) {
       if (result.length >= 1) {
         resolve(result);
       }
+      else
+      {
+        result([])
+      }
     });
   });
 }
@@ -207,7 +211,7 @@ module.exports.getUserProfileDetails = function(userId) {
   });
 }
 
-module.exports.postUserProfileDetails = function(profilePictureURL, bio, userAge, lookingFor, userGender, userId) { 
+module.exports.postUserProfileDetails = function(profilePictureURL, bio, lookingFor, userGender, userId) { 
   return new Promise(function(resolve, reject) {
     let SQL = `INSERT INTO userProfileDetails (profilePictureURL, bio, lookingFor, userGender, userId) VALUES ('${profilePictureURL}', '${bio}', ${lookingFor}, ${userGender}, ${userId})`
     dbConnection.query(SQL, function (err, result) {
@@ -240,16 +244,9 @@ module.exports.insertInterests = function(userId, interests) {
           complete = false
         }
       });
-
-      if (complete)
-      {
-        resolve({message: "success"});
-      }
-      else
-      {
-        reject({message: "failed"})
-      }
     }
+    resolve({message: "success"});
+    
   });
 }
 
