@@ -178,6 +178,78 @@ module.exports.getMatches = function(userId) {
   });
 }
 
+module.exports.likeFriend = function(userId, friendId) { 
+  return new Promise(function(resolve, reject) {
+    let SQL = `SELECT userId FROM loginInDetails WHERE userId = '${friendId}'`
+    dbConnection.query(SQL, function (err, result) {
+      if (err) {
+        console.error(err);
+        reject(err);
+        return;
+      }
+      if (!result.length) {
+        resolve({error: "friend does not exist"});
+        return;
+      }
+    });
+
+    SQL = `SELECT userId, LikedUser FROM likedUsers WHERE userId = '${userId}' AND LikedUser = '${friendId}'`
+    dbConnection.query(SQL, function (err, result) {
+      if (err) {
+        console.error(err);
+        reject(err);
+        return;
+      }
+      if (result.length) {
+        resolve({error: "already liked"});
+        return;
+      }
+    });
+
+    SQL = `INSERT INTO likedUsers (userId, LikedUser) VALUES ('${userId}', '${friendId}')`
+    dbConnection.query(SQL, function (err, result) {
+      if (err) {
+        console.error(err);
+        reject(err);
+        return;
+      }
+      SQL = `SELECT userId FROM likedUsers WHERE userId = '${friendId}' AND LikedUSer = '${userId}'`
+      dbConnection.query(SQL, function (err, result) {
+        if (err) {
+          console.error(err);
+          reject(err);
+          return;
+        }
+        if (result.length) {
+          resolve({match: true});
+        }
+        else {
+          resolve({match: false});
+        }
+      });
+    });
+  });
+}
+
+module.exports.dislikedFriend = function(userId, friendId) {
+  return new Promise(function(resolve, reject) {
+    let SQL = `INSERT INTO dislikedUser (userId, dislikedUser) VALUES (${userId}, ${dislikedFriend})`
+    dbConnection.query(SQL, function (err, result) {
+      if (err) {
+        console.error(err);
+        reject(err);
+        return;
+      }
+      if (result.affectedRows >= 1) {
+        resolve({message: "success"});
+      }
+      else {
+        resolve({message: "failed"});
+      }
+    });
+  })
+}
+
 module.exports.getUserProfileDetails = function(userId) { 
   return new Promise(function(resolve, reject) {
     let SQL = `SELECT loginInDetails.userId, 
@@ -245,8 +317,8 @@ module.exports.insertInterests = function(userId, interests) {
         }
       });
     }
-    resolve({message: "success"});
-    
+      resolve({message: "success"});
+
   });
 }
 
