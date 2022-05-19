@@ -92,16 +92,27 @@ module.exports.signUp = function(firstName, lastName, email, password) {
   });
 }
 
-module.exports.getMatches = function(userId) { 
+module.exports.getFriends = function(userId) {
+
+  let SQLGetPeeps = `SELECT loginInDetails.userId, 
+  loginInDetails.firstName, 
+  userProfileDetails.bio, 
+  userProfileDetails.profilePictureURL, 
+  userProfileDetails.userAge from loginInDetails 
+  INNER JOIN userProfileDetails ON userProfileDetails.userId = loginInDetails.userId 
+  INNER JOIN userInterest ON userInterest.userId = userProfileDetails.userId 
+  INNER JOIN interests ON interests.interestId = userInterest.interestId 
+  WHERE interests.interestId IN (SELECT interests.interestId FROM interests INNER JOIN userInterest ON userInterest.interestId = interests.interestId WHERE userInterest.userId = ${userId}) 
+  AND loginInDetails.userId != ${userId}
+  AND loginInDetails.userId NOT IN (SELECT DISTINCT LikedUser FROM likedUsers WHERE userId = ${userId})`
+
   return new Promise(function(resolve, reject) {
-    // TODO
-    let SQL = `SELECT * FROM loginInDetails WHERE email = '${email}' && password = '${password}'`
-    dbConnection.query(SQL, function (err, result) {
+    dbConnection.query(SQLGetPeeps, function (err, result) {
       if (err) {
         throw err;
       }
       if (result.length >= 1) {
-        resolve(result[0]);
+        resolve(result);
       }
       else{
         reject("sorry champ")
