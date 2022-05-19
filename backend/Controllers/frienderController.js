@@ -164,7 +164,7 @@ router.post("updateInterest", (req, res) => {
   })
 });
 
-router.get("/messages/", (req, res) => {
+router.get("/messages", (req, res) => {
   let userId = req.query.userId;
   let friendId = req.query.friendId;
 
@@ -175,7 +175,7 @@ router.get("/messages/", (req, res) => {
   })
 });
 
-router.post("/message/", (req, res) => {
+router.post("/message", (req, res) => {
     let { 
       recipientId, 
       senderId, 
