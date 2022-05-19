@@ -80,7 +80,7 @@ img:hover {
 
 .popup-close {
     cursor: pointer;
-    background: white;
+    background:#f0dfb3;
     border: none;
     width: 100%;
     font-weight: bold;
@@ -145,4 +145,6 @@ img:hover {
     margin-left: 0.2em;
 }
 
-
+#chatPopup{
+    background-color: #f0dfb3;
+}

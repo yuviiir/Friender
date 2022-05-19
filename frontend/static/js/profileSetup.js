@@ -65,7 +65,7 @@ function SelectInterest(interest)
              {
                //document.getElementById(interest).classList.add('Interest_button_selected');
                interestSelected.push(interest);
-               document.getElementById(interest).style.backgroundColor = 'Gold'; 
+               document.getElementById(interest).style.backgroundColor = '#FFC000'; 
              }
         }
         console.log(interestSelected, "length", interestSelected.length);
