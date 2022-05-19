@@ -63,3 +63,75 @@ img:hover {
     -webkit-transform: scale(1.5); /* Safari 3-8 */
     transform: scale(1.5); 
 }
+
+/* css for popup */
+.popup {
+    /* display: none; */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    background: white;
+    width: 500px;
+    height: 500px;
+    border-radius: 20px;
+    z-index: 200;
+    -webkit-animation: fadeIn 1s;
+    animation: fadeIn 1s;
+    left: auto;
+    top: auto;
+}
+
+.popup-close {
+    cursor: pointer;
+    background: white;
+    border: none;
+    width: 100%;
+    font-weight: bold;
+    font-size: 1em;
+    text-align: right;
+    padding-right: 25px;
+}
+
+.chat-heading{
+    margin: 1em;
+    margin-bottom: 0em;
+}
+
+.chat-conversation{
+    height: 330px;
+}
+
+.message{
+    justify-items: flex-start;
+    margin:1em;
+    padding: 0px 2px 0px 2px;
+    background-color: #ffe497;
+    border-radius: 1em;
+    
+}
+
+.chat-message{
+    display: flex;
+    height: fit-content;
+}
+
+
+.messageBox{
+    flex: 3;
+    height: 2.5em;
+    border-radius: 1em;
+    
+}
+
+.btnSend{
+    flex: 1;
+    color: white;
+    background: black;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    margin-left: 0.2em;
+}
+
+

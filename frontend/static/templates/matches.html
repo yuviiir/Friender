@@ -5,7 +5,7 @@
         <meta charset="UTF-8" />
         <link rel="stylesheet" href="static/css/styles.css" />
         <link rel="stylesheet" href="static/css/matches.css" />
-
+        
     </head>
     <body>
         <section class="matches-body">
@@ -18,6 +18,35 @@
                     <img id="profile-img" src="static/images/pr.jpg" >
                    </section>     
         </section>
+        <section class="popup" id="chatPopup">
+            <section class="chat-header">
+                <h1 class="chat-heading" >Friends</h1>
+                <button id="popupclose" class="popup-close" onclick="closePopup('login')">X</button>
+            </section>
+            <section class="chat-main">
+                <section class="chat-conversation" data-conversations>
+                        <section class="message">
+                            <p class="meta">Brad <span>9:12pm</span></p>
+                            <p class="text">
+                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi,
+                                repudiandae.
+                            </p>
+                        </section>
+                        <section class="message">
+                            <p class="meta">Mary <span>9:15pm</span></p>
+                            <p class="text">
+                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi,
+                                repudiandae.
+                            </p>
+                        </section>
+                    </section>
+            </section>
+            <section class="chat-message" >
+                <input type="text" class="messageBox" placeholder="Please enter your message here" required data-msg >
+                <button type="submit" class="btnSend" onclick="sendMessage()">Send</button>
+            </section>
+        </section>
+        <script src="/socket.io/socket.io.js"></script>
         <script src="static/js/matches.js"></script>
         <script src="static/js/nav.js"></script>
     </body>
