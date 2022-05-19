@@ -51,20 +51,19 @@ const getMatches = () =>
         method: "GET",
         url: `http://localhost:3002/api/getMatches`,
         params: {
-            userId:63
-           // userId: JSON.parse(sessionStorage.getItem("userDetails")).userId,
+           userId: JSON.parse(sessionStorage.getItem("userDetails")).userId,
         }
     }).then((data) => {
         matches=data.data;
-        // sessionStorage.setItem("userDetails", JSON.stringify(data.data))
-        // window.location.href = "/home";
+        populateMatches();
+
     }).catch((err) => {
         overlay2.style.display = 'none';
         console.log("help", err);
     })
 }
 
-const addMatches = (matches)=> {
+const populateMatches = ()=> {
 
     for (let i=0; i <matches.length; i++)
     {
@@ -82,5 +81,5 @@ const addMatches = (matches)=> {
 
 
 
-window.onload=addMatches(getMatches());
+window.onload=getMatches();
 console.log(getMatches());
