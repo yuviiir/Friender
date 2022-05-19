@@ -49,24 +49,39 @@ function closePopup(){
 }
 const getMatches = () =>
 {
-    const matches =
-    [
-    {
-        name:"ruby",
-        userID: "1",
-        location:"Johannesburg",
-        img_url:"static/images/pp.png",
-        bio: "I Like to live and laugh"
-    },
-    {
-        name:"James",
-        userID: "2",
-        location:"Cape Tow",
-        img_url:"static/images/pp.png",
-        bio: "I love long walks and music"
-    }
-    ];
-    return matches;
+    axios({
+        method: "GET",
+        url: `http://localhost:3002/api/getMatches`,
+        params: {
+            userId: JSON.parse(sessionStorage.getItem("userDetails")).userId,
+        }
+    }).then((data) => {
+        console.log(data)
+        // sessionStorage.setItem("userDetails", JSON.stringify(data.data))
+        // window.location.href = "/home";
+    }).catch((err) => {
+        overlay2.style.display = 'none';
+        console.log("help", err);
+    })
+
+    // const matches =
+    // [
+    // {
+    //     name:"ruby",
+    //     userID: "1",
+    //     location:"Johannesburg",
+    //     img_url:"static/images/pp.png",
+    //     bio: "I Like to live and laugh"
+    // },
+    // {
+    //     name:"James",
+    //     userID: "2",
+    //     location:"Cape Tow",
+    //     img_url:"static/images/pp.png",
+    //     bio: "I love long walks and music"
+    // }
+    // ];
+   // return matches;
 }
 
 const addMatches = (matches)=> {

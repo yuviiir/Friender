@@ -90,6 +90,14 @@ router.get("/getUserProfileDetails", (req, res) => {
   }, (err) => res.status(500).send({error: "There was an error completing this request."}))
 });
 
+router.get("/getMatches", (req, res) => {
+  let userId = req.query.userId;
+
+  serviceFriender.getMatches(userId).then((data) => {
+    res.send(data)
+  }, (err) => res.status(500).send({error: "There was an error completing this request."}))
+});
+
 router.post("/postUserProfileDetails", (req, res) => {
   let userId = req.body.userId;
   let profilePictureURL = req.body.profilePictureURL;
