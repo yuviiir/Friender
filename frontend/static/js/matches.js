@@ -47,41 +47,24 @@ function closePopup(){
     document.getElementById('overlay').style.display = 'none';
     document.getElementById('chatPopup').style.display = "none";
 }
+let matches= null;
 const getMatches = () =>
 {
     axios({
         method: "GET",
         url: `http://localhost:3002/api/getMatches`,
         params: {
-            userId: JSON.parse(sessionStorage.getItem("userDetails")).userId,
+            userId:63
+           // userId: JSON.parse(sessionStorage.getItem("userDetails")).userId,
         }
     }).then((data) => {
-        console.log(data)
+        matches=data.data;
         // sessionStorage.setItem("userDetails", JSON.stringify(data.data))
         // window.location.href = "/home";
     }).catch((err) => {
         overlay2.style.display = 'none';
         console.log("help", err);
     })
-
-    // const matches =
-    // [
-    // {
-    //     name:"ruby",
-    //     userID: "1",
-    //     location:"Johannesburg",
-    //     img_url:"static/images/pp.png",
-    //     bio: "I Like to live and laugh"
-    // },
-    // {
-    //     name:"James",
-    //     userID: "2",
-    //     location:"Cape Tow",
-    //     img_url:"static/images/pp.png",
-    //     bio: "I love long walks and music"
-    // }
-    // ];
-   // return matches;
 }
 
 const addMatches = (matches)=> {
@@ -90,7 +73,7 @@ const addMatches = (matches)=> {
     {
        const section= document.createElement('section')
        section.className='match-item'
-       section.onclick = () => openChatPopup(matches[i].userID, matches[i].name);
+       section.onclick = () => openChatPopup(matches[i].userId, matches[i].firstName);
        const profileImg = document.createElement('img');
        profileImg.src=matches[i].img_url
        profileImg.className='profile-img';
