@@ -158,8 +158,23 @@ module.exports.getMatches = function(userId) {
 
 module.exports.getUserProfileDetails = function(userId) { 
   return new Promise(function(resolve, reject) {
-    // TODO
-    let SQL = `SELECT * FROM loginInDetails WHERE email = '${email}' && password = '${password}'`
+    let SQL = `SELECT loginInDetails.userId, 
+    loginInDetails.firstName, 
+    loginInDetails.email, 
+    userProfileDetails.profilePictureURL, 
+    userProfileDetails.bio, 
+    userProfileDetails.userAge, 
+    genderLookUp.genderDescription as 'lookingFor', 
+    u.genderDescription as 'gender',
+    group_concat(interests.interestDescription separator ', ') as interests
+    FROM loginInDetails 
+    INNER JOIN userProfileDetails ON userProfileDetails.userId = loginInDetails.userId 
+    LEFT JOIN userInterest ON userInterest.userId = userProfileDetails.userId
+    LEFT JOIN interests ON interests.interestId = userInterest.interestId
+    LEFT JOIN genderLookUp ON genderLookUp.genderID = userProfileDetails.lookingFor 
+    LEFT JOIN genderLookUp u ON genderLookUp.genderID = userProfileDetails.userId 
+    WHERE loginInDetails.userId = ${userId}
+    group by loginInDetails.userId`
     dbConnection.query(SQL, function (err, result) {
       if (err) {
         throw err;
@@ -174,37 +189,35 @@ module.exports.getUserProfileDetails = function(userId) {
   });
 }
 
-module.exports.createUserProfile = function(userId) { 
+module.exports.postUserProfileDetails = function(profilePictureURL, bio, userAge, lookingFor, userGender, userId) { 
   return new Promise(function(resolve, reject) {
-    // TODO
-    let SQL = `SELECT * FROM loginInDetails WHERE email = '${email}' && password = '${password}'`
+    let SQL = `INSERT INTO userProfileDetails (profilePictureURL, bio, userAge, lookingFor, userGender, userId) VALUES ('${profilePictureURL}', '${bio}', ${userAge}, ${lookingFor}, ${userGender}, ${userId})`
     dbConnection.query(SQL, function (err, result) {
       if (err) {
         throw err;
       }
-      if (result.length >= 1) {
-        resolve(result);
+      if (result.affectedRows >= 1) {
+        resolve({message: "success"});
       }
       else{
-        reject("sorry champ")
+        reject({message: "failed"})
       }
     });
   });
 }
 
-module.exports.updateUserProfile = function(userId) { 
+module.exports.updateUserProfileDetails = function(userId) { 
   return new Promise(function(resolve, reject) {
-    // TODO
-    let SQL = `SELECT * FROM loginInDetails WHERE email = '${email}' && password = '${password}'`
+    let SQL = `UPDATE userProfileDetials SET profilePictureURL = '${profilePictureURL}', bio = '${bio}', userAge = ${userAge}, lookingFor = ${lookingFor}, userGender = ${userGender} WHERE userId = ${userId}`
     dbConnection.query(SQL, function (err, result) {
       if (err) {
         throw err;
       }
-      if (result.length >= 1) {
-        resolve(result);
+      if (result.affectedRows >= 1) {
+        resolve({message: "successfully updated"});
       }
       else{
-        reject("sorry champ")
+        reject({message: "failed update"})
       }
     });
   });
