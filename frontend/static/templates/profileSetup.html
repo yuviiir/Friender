@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Friender Next Page</title>
+        <title>Friender Profile Setup Page</title>
         <meta charset="UTF-8" />
         <link rel="stylesheet" href="static/css/styles.css" />
         <link rel="stylesheet" href="static/css/profileSetup.css" />
@@ -9,90 +9,93 @@
         <link href="http://fonts.cdnfonts.com/css/abhaya-libre-2" rel="stylesheet">
     </head>
     <body>
-        <section class = "container" >
-            <h1 class = "ProfilePageHeader">Lets get to know you ...</h1>
-
-            <section class = "ChooseGenderSection">
+        <section class="page">
+        <h1 id="Heading" class = "ProfilePageHeader">Lets get to know you ...</h1>
+            <section class="Step1and2-Container">
                 <h1 class = "labels"  id="ChooseGenderHeader">Step 1: Show me...</h1>
-                <section class = "gender-buttons-selection">
-                    <button class = "Genderbutton" id="men-button">
+
+                <section class = "GenderButtonsSection">
+                    <button class = "btn" id="men" onclick="SelectGender('men')">
                         Men
                     </button>
-                    <button class ="Genderbutton" id="women-button">
+                    <button class ="btn" id="women" onclick="SelectGender('women')">
                         Women
                     </button>
-                    <button  class ="Genderbutton" id="transgender-button">
+                    <button  class ="btn" id="non-binary" onclick="SelectGender('non-binary')">
                         Transgender
                     </button>
-                    <button class ="Genderbutton" id="all-button">
+                    <button class ="btn" id="all" onclick="SelectGender('all')">
                         All
                     </button>
                 </section> 
-            </section>
 
-            <section class="SelectInterestsSection">
+                
                 <h1 class = "labels"  id="SelectInterestsHeading">Step 2: My interests are...</h1>
-                <section class = "Interest-selection-buttons1">
-                    <button class = "Interest_button" id="Reading-button">
-                        Reading
-                    </button>
-                    <button class ="Interest_button" id="Coffee-button">
-                        Coffee
-                    </button>
-                    <button  class ="Interest_button" id="Beer-button">
-                        Beer
-                    </button>
-                </section>
-                <section class = "Interest-selection-buttons2">
-                    <button class ="Interest_button" id="Hiking-button">
+                <section class = "InterestSelectionBtns">
+                    <button class ="btn" id="Hiking" onclick="SelectInterest('Hiking')">
                         Hiking
                     </button>
-                    <button class ="Interest_button" id="Movies-button">
+                    <button class ="btn" id="Movies" onclick="SelectInterest('Movies')">
                         Movies
                     </button>
-                    <button class ="Interest_button" id="Photography-button">
+                    <button class ="btn" id="Photography" onclick="SelectInterest('Photography')">
                         Photography
                     </button>
-                </section>
-                <section class = "Interest-selection-buttons3">
-                    <button class ="Interest_button" id="Art-button">
-                        Art
+
+                    <button class ="btn" id="Reading" onclick="SelectInterest('Reading')">
+                        Reading
                     </button>
-                    <button class ="Interest_button" id="Sports-button">
+                    <button class ="btn" id="Sports" onclick="SelectInterest('Sports')">
                         Sports
                     </button>
-                    <button class ="Interest_button" id="Surfing-button">
-                        Surfing
-                    </button>
-                </section>
-                <section class = "Interest-selection-buttons4">
-                    <button class ="Interest_button" id="Dogs-button">
+                    <button class ="btn" id="Dogs" onclick="SelectInterest('Dogs')">
                         Dogs
                     </button>
-                    <button class ="Interest_button" id="Camping-button">
-                        Camping
+
+                    <button class ="btn" id="Gaming" onclick="SelectInterest('Gaming')">
+                        Gaming
                     </button>
-                    <button class ="Interest_button" id="Cooking-button">
+                    <button class ="btn" id="Art" onclick="SelectInterest('Art')">
+                        Art
+                    </button>
+                    <button class ="btn" id="Cooking" onclick="SelectInterest('Cooking')">
                         Cooking
                     </button>
-                </section> 
+
+                    <button class ="btn" id="Coffee" onclick="SelectInterest('Coffee')">
+                        Coffee
+                    </button>
+                    <button class ="btn" id="Beer" onclick="SelectInterest('Beer')">
+                        Beer
+                    </button>
+                    <button class ="btn" id="Camping" onclick="SelectInterest('Camping')">
+                        Camping
+                    </button>
+                </section>
             </section>
 
-            <section class ="InsertBioSection">
-                <h1 class = "labels"  id="InsertBioHeader">Step 3: I describe myself as...</h1>
-                <textarea class="BioTextArea" name="Insert Bio here"></textarea>
-                <button class="buttonInsertBio"> Submit</button>
-            </section>
+            <section class="Step3and4-Container">
+                <section class="BioSection">
+                    <h1 class = "labels"  id="InsertBioHeader">Step 3: I describe myself as...</h1>
+                    <input class="BioTextArea" id="BioTextAreaID" type="text" placeholder="Insert Bio here" value="" maxlength="150" onkeyup="UpdateBio(value)"></input>
+                </section>
 
-            <section class="UploadPhotoSection">
-                <h1 class = "labels"  id="UploadPhotoHeader">Step 4: I look like ...</h1>
-                <button class="UploadPhotoButton"> Upload Photos</button>
+                <section class = "PhotoSection">
+                    <h1 class = "labels"  id="UploadPhotoHeader">Step 4: I look like ...</h1>
+                    <div id="app"></div>
+                    <form id="upload">
+                        <!-- <label for="file">File to upload</label> -->
+                        <input type="file" id="file" accept="image/*" class = "PhotoUpload">
+                        <button class ="Uploadbtn">Upload</button>
+                    </form>
+                </section>
+                <button class="btn" id="submit" onclick="submitProfile()">Submit</button>
             </section>
-        </section>
-        
+        </section>    
     </body>
     <footer>
         <h3>Find friends, and have you experiences transcend!</h3>
     </footer>
     <script src="static/js/nav.js"></script>
+    <script src="static/js/profileSetup.js"></script>
 </html>

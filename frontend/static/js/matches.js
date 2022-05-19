@@ -4,62 +4,6 @@ const socket = io();
 let currentUserName;
 
 
-const getMatches = () =>
-{
-    const matches =
-    [
-    {
-        name:"ruby",
-        userID: "1",
-        location:"Johannesburg",
-        img_url:"static/images/pr.jpg",
-        bio: "I Like to live and laugh"
-    },
-    {
-        name:"James",
-        userID: "2",
-        location:"Cape Tow",
-        img_url:"static/images/pr.jpg",
-        bio: "I love long walks and music"
-    }
-    // {
-    //     name:"James",
-    //     location:"Cape Tow",
-    //     img_url:"static/images/pr.jpg",
-    //     bio: "I love long walks and music"
-    // },
-    // {
-    //     name:"ruby",
-    //     location:"Johannesburg",
-    //     img_url:"static/images/pr.jpg",
-    //     bio: "I Like to live and laugh"
-    // },
-    // {
-    //     name:"James",
-    //     location:"Cape Tow",
-    //     img_url:"static/images/pr.jpg",
-    //     bio: "I love long walks and music"
-    // }
-    ];
-    return matches;
-}
-
-const addMatches = (matches)=> {
-    for (let i=0; i <matches.length; i++)
-    {
-       const section= document.createElement('section')
-       section.className='match-item'
-       section.onclick = () => openChatPopup(matches[i].id, matches[i].name);
-       const profileImg = document.createElement('img');
-       profileImg.src=matches[i].img_url
-       profileImg.id='profile-img';
-       section.appendChild(profileImg)
-       document.getElementById("all-matches-container").appendChild(section);
-       console.log(section + "jshdhfj")
-       console.log(section + '');
-    }
-}
-
 function openChatPopup(id, name) {
     document.getElementById('overlay').style.display = 'block';
     document.getElementById('chatPopup').style.display = "block";
@@ -70,8 +14,6 @@ function openChatPopup(id, name) {
     
 }
 
-window.onload=addMatches(getMatches());
-console.log(getMatches());
 
 // enabling the chat functionality
 
@@ -105,25 +47,45 @@ function closePopup(){
     document.getElementById('overlay').style.display = 'none';
     document.getElementById('chatPopup').style.display = "none";
 }
+const getMatches = () =>
+{
+    const matches =
+    [
+    {
+        name:"ruby",
+        userID: "1",
+        location:"Johannesburg",
+        img_url:"static/images/pp.png",
+        bio: "I Like to live and laugh"
+    },
+    {
+        name:"James",
+        userID: "2",
+        location:"Cape Tow",
+        img_url:"static/images/pp.png",
+        bio: "I love long walks and music"
+    }
+    ];
+    return matches;
+}
 
-//     for (let i=0; i <matches.length; i++)
-//     {
-//        const section= document.createElement('section')
-//        section.className='match-item'
-//        section.onclick = () => openChatPopup(matches[i].userID);
-//        const profileImg = document.createElement('img');
-//        profileImg.src=matches[i].img_url
-//        profileImg.id='profile-img';
-//        section.appendChild(profileImg)
-//        document.getElementById("matches-container").appendChild(section);
-//        console.log(section + "jshdhfj")
-//        console.log(section + '');
-//     }
-// }
+const addMatches = (matches)=> {
 
-// function openChatPopup(userID) {
-//     console.log(userID)
-// }
+    for (let i=0; i <matches.length; i++)
+    {
+       const section= document.createElement('section')
+       section.className='match-item'
+       section.onclick = () => openChatPopup(matches[i].userID);
+       const profileImg = document.createElement('img');
+       profileImg.src=matches[i].img_url
+       profileImg.className='profile-img';
+       section.appendChild(profileImg)
+       document.getElementById("amc").appendChild(section);
 
-// window.onload=addMatches(getMatches());
-// console.log(getMatches());
+    }
+}
+
+
+
+window.onload=addMatches(getMatches());
+console.log(getMatches());
