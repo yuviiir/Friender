@@ -1,7 +1,7 @@
 const express = require("express");
+const {PORT} =  require('./config');
 const router = require('./Controllers/frienderController');
 const app = express()
-const port = 3002
 
 app.use(express.json())
 app.use('/api', router);
@@ -17,4 +17,4 @@ app.use(function(err, req, res, next) {
   })
 });
 
-app.listen(port, () => {console.log(`Backend server running on port ${port}`)});
+app.listen(PORT, () => {console.log(`Backend server running on port ${PORT}`)});

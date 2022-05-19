@@ -1,11 +1,12 @@
 const mysql = require("mysql");
+const { DB_HOST, DB_PORT, DB_USER, DB_PASSWORD, DB_DATABASE} =  require('../config');
 
 const db = mysql.createConnection({
-    host:"frienderdb.cluster-clu6icw3etai.us-east-1.rds.amazonaws.com",
-    port:"3306",
-    user:"admin", //remove this later or hide it
-    password:"frienderdb123",
-    database:"frienderDB"
+    host:DB_HOST,
+    port:DB_PORT,
+    user: DB_USER,
+    password:DB_PASSWORD,
+    database:DB_DATABASE
 });
 
 db.connect(err=>{
