@@ -249,7 +249,7 @@ module.exports.likeFriend = function(userId, friendId) {
 module.exports.dislikedFriend = function(userId, friendId) { 
 
   return new Promise(function(resolve, reject) {
-    let SQL = `INSERT INTO dislikedUser (userId, dislikedUser) VALUES (${userId}, ${dislikedFriend})`
+    let SQL = `INSERT INTO dislikeUsers (userId, dislikedUser) VALUES (${userId}, ${friendId})`
     dbConnection.query(SQL, function (err, result) {
       if (err) {
         console.error(err);

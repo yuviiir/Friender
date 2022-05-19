@@ -9,9 +9,6 @@ function openChatPopup(id, name) {
     document.getElementById('chatPopup').style.display = "block";
     console.log(id);
     currentUserName = name;
-
-
-    
 }
 
 

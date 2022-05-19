@@ -133,9 +133,9 @@ router.post("/dislike", (req, res) => {
   let {
     userId,
     friendId
-   } = req.body;
-
-  serviceFriender.dislikeFriend(userId, friendId).then((data) => {
+  } = req.body;
+  
+  serviceFriender.dislikedFriend(userId, friendId).then((data) => {
     res.send(data);
   }, (error) => {
     res.status(500).send({error: "There was an error completing this request."});
