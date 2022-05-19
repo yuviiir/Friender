@@ -105,7 +105,7 @@ module.exports.signUp = function(firstName, lastName, email, password) {
             console.error(err);
             reject(err);
           }
-          resolve({usedEmail: false, success: true});
+          resolve({usedEmail: false, success: true, userDetails:{firstName: firstName, lastName: lastName, email: email, userId: result.insertId}});
         });
       }
     });
@@ -129,7 +129,6 @@ module.exports.getFriends = function(userId) {
   return new Promise(function(resolve, reject) {
     dbConnection.query(SQLGetPeeps, function (err, result) {
       if (err) {
-        console.log("here?")
         console.error(err);
         reject(err);
         return;
