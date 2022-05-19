@@ -1,5 +1,4 @@
 let overlay = document.getElementById("overlay");
-axios.defaults.crossDomain = true;
 let popup = {
     login: document.getElementById("loginPopup"),
     create: document.getElementById("createPopup"),

@@ -1,3 +1,6 @@
+let overlay = document.getElementById("overlay");
+let popup = document.getElementById("matchPopup");
+let image = document.getElementById("popupImage");
 let potentialFriends = [
     {
         userID: 1,
@@ -84,8 +87,29 @@ function renderNextUser() {
 function likeUser(userID) {
     // like api
     console.log("like", userID)
+    let isMatch = true;
+
+    if (isMatch) {
+        openPopup();
+    }
     nextUser();
 }
+
+function openMatchPopup() {
+
+}
+
+function openPopup() {
+    overlay.style.display = 'block';
+    popup.style.display = 'block';
+    image.src = potentialFriends[0].profilePicture;
+}
+
+function closePopup() {
+    overlay.style.display = 'none';
+    popup.style.display = 'none';
+}
+
 
 function dislikeUser(userID) {
     // dislike api
