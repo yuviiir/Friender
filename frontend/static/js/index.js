@@ -67,14 +67,15 @@ function initalizeForm() {
                 type: "password",
                 validation: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/
             },
-            age: {
+            userAge: {
                 value: null,
                 isValid: false,
                 isTouched: false,
                 placeholder: "Enter your age",
                 display: "Age",
                 error: "Please enter a valid Age",
-                validation: /1[3-9]|[4-9]\d+|\d{3,}/
+                validation: /^[1-9]\d*$/,
+                otherValidation: "age"
             }
         }
     };
@@ -122,6 +123,10 @@ function checkValidity(type) {
     for (let key in formData[type]) {
         if (formData[type][key].value) {
             formData[type][key].isValid = formData[type][key].validation ? formData[type][key].validation.test(formData[type][key].value) : true;
+            if (formData[type][key].otherValidation) {
+                if (formData[type][key].otherValidation === "age")
+                    formData[type][key].isValid = parseInt(formData[type][key].value) > 12 && parseInt(formData[type][key].value) < 100 ? true : false;
+            }
         }
         else {
             formData[type][key].isValid = false;
@@ -156,7 +161,7 @@ function submit(type) {
     if (type == 'login') {
         axios({
             method: "GET",
-            url: `http://localhost:3002/api/login`,
+            url: `http://ec2-3-82-51-192.compute-1.amazonaws.com:3002/api/login`,
             params: payload
         }).then((data) => {
             console.log(data)
@@ -170,7 +175,7 @@ function submit(type) {
     else {
         axios({
             method: "POST",
-            url: `http://localhost:3002/api/signUp`,
+            url: `http://ec2-3-82-51-192.compute-1.amazonaws.com:3002/api/signUp`,
             headers: {
                 'Content-Type': 'application/json',
             },

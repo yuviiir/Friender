@@ -2,12 +2,16 @@ let overlay = document.getElementById("overlay");
 let popup = document.getElementById("matchPopup");
 let image = document.getElementById("popupImage");
 let potentialFriends = [];
-let userId = JSON.parse(sessionStorage.getItem("userDetails")).userId;
+let userId = JSON.parse(sessionStorage.getItem("userDetails"))?.userId;
+
+if (!userId) {
+    window.location.href = "/";
+}
 
 function getPotentialFriends() {
         axios({
             method: "GET",
-            url: `http://localhost:3002/api/getFriends/`,
+            url: `http://ec2-3-82-51-192.compute-1.amazonaws.com:3002/api/getFriends/`,
             params: {userId: userId}
         }).then((res) => {
             potentialFriends = res.data
@@ -77,7 +81,7 @@ function renderNextUser() {
 function likeUser(friendId) {
     axios({
         method: "POST",
-        url: `http://localhost:3002/api/like/`,
+        url: `http://ec2-3-82-51-192.compute-1.amazonaws.com:3002/api/like/`,
         data: {
             userId: userId,
             friendId: friendId
@@ -106,7 +110,7 @@ function closePopup() {
 function dislikeUser(friendId) {
     axios({
         method: "POST",
-        url: `http://localhost:3002/api/dislike/`,
+        url: `http://ec2-3-82-51-192.compute-1.amazonaws.com:3002/api/dislike/`,
         data: {
             userId: userId,
             friendId: friendId
