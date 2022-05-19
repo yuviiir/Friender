@@ -19,12 +19,10 @@ router.use(jsonParser);
 
 
 router.get("/test", (req, res) => {
-  let email = "pieterk@bbd.co.za";
-  let password = "123";
-  serviceFriender.getLogins(email, password).then((data) => {
+  serviceFriender.test().then((data) => {
     res.send(data);
   }, (error) => {
-    res.status(404).send(error);
+    res.status(500).send({error: "There was an error completing this request."});
   }) 
 });
 
@@ -45,11 +43,13 @@ router.get("/interestOptions", (req, res) => {
 });
 
 router.post("/signUp", (req, res) => {
-
-  let firstName = req.body.firstName;
-  let lastName = req.body.lastName;
-  let email = req.body.email;
-  let password = req.body.password;
+  let { 
+    firstName, 
+    lastName, 
+    email, 
+    password
+   } = req.body
+   ;
 
   serviceFriender.signUp(firstName, lastName, email, password).then((data) => {
     res.send(data);
@@ -59,8 +59,10 @@ router.post("/signUp", (req, res) => {
 })
 
 router.get("/login/", (req, res) => {
-  let email = req.query.email
-  let password = req.query.password
+  let  {
+    email, 
+    password
+   } = req.body
 
   serviceFriender.getLogins(email, password).then((data) => {
     res.send(data);
@@ -101,7 +103,11 @@ router.post("/like", (req, res) => {
     friendId
    } = req.body;
 
-  res.status(418).send("Don't get ahead of yourself.");
+  serviceFriender.likeFriend(userId, friendId).then((data) => {
+    res.send(data);
+  }, (error) => {
+    res.status(500).send({error: "There was an error completing this request."});
+  }) 
 });
 
 // Messages API may change to sockets:
