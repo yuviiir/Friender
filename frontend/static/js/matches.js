@@ -1,3 +1,5 @@
+const { AlexaForBusiness } = require("aws-sdk");
+
 const msg = document.querySelector('[data-msg]');
 const conversation = document.querySelector('[data-conversations]')
 const socket = io();
@@ -26,6 +28,19 @@ function sendMessage(){
     socket.emit('chatMessage', txtmsg, currentUserName);
     msg.value = '';
     msg.focus();
+
+  const getMessages = () => {
+      axios({
+          method: 'GET',
+          url: 'http:/localhost:3002/api/getMessages',
+          params: {
+            recipientId : currentUserName,
+            senderId : JSON.parse(sessionStorage.getItem("userDetails")).userId,
+            message : txtmsg,
+            dateSent : ""
+          }
+      })
+  }
 
 }
 
