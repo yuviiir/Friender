@@ -1,4 +1,5 @@
 let overlay = document.getElementById("overlay");
+axios.defaults.crossDomain = true;
 let popup = {
     login: document.getElementById("loginPopup"),
     create: document.getElementById("createPopup"),
@@ -29,7 +30,7 @@ function initalizeForm() {
             }
         },
         create: {
-            fName: {
+            firstName: {
 				value: null,
 				isValid: false,
 				isTouched: false,
@@ -38,7 +39,7 @@ function initalizeForm() {
                 error: "Please enter a valid first name",
 				validation: /^[a-zA-Z ]{2,50}$/
 			},
-			lName: {
+			lastName: {
 				value: null,
 				isValid: false,
 				isTouched: false,
@@ -111,7 +112,7 @@ function checkValidity(type) {
 
     for (let key in formData[type]) {
         if (formData[type][key].value) {
-            formData[type][key].isValid = formData[type][key].validation.test(formData[type][key].value);
+            formData[type][key].isValid = formData[type][key].validation ? formData[type][key].validation.test(formData[type][key].value) : true;
         }
         else {
             formData[type][key].isValid = false;
@@ -138,7 +139,37 @@ function closePopup (type) {
 }
 
 function submit(type) {
-    let payload = formData[type];
-    console.log("submit", payload)
+    let payload = {};
+    for (let key in formData[type]) {
+        payload[key] = formData[type][key].value;
+    }
+    if (type == 'login') {
+        axios({
+            method: "GET",
+            url: `http://localhost:3002/api/login/`,
+            params: payload
+        }).then((data) => {
+            console.log(data)
+            sessionStorage.setItem("userDetails", data)
+        }).catch((err) => {
+            console.log("help", err);
+        })
+    }
+    else {
+        axios({
+            method: "POST",
+            url: `http://localhost:3002/api/signUp/`,
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            data: payload
+        }).then((data) => {
+            console.log(data)
+            sessionStorage.setItem("userDetails", data)
+        }).catch((err) => {
+            console.log("help", err);
+        })
+    };
+
     // window.location.href = "/home"
 }

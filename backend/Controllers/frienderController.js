@@ -1,10 +1,22 @@
 const express = require("express");
 const serviceFriender = require('../Services/frienderService');
 const router = express.Router();
+const cors = require('cors');
+const bodyParser = require('body-parser');
+const jsonParser = bodyParser.json();
+const urlEncoded = bodyParser.urlencoded();
 
 router.get("/", (req, res) => {
   res.send("Friender backend server");
 });
+
+router.use(cors({
+  origin: "*",
+  methods: ["GET", "POST"]
+}))
+
+router.use(jsonParser);
+
 
 router.get("/test", (req, res) => {
   serviceFriender.test().then((data) => {
@@ -31,12 +43,13 @@ router.get("/interestOptions", (req, res) => {
 });
 
 router.post("/signUp", (req, res) => {
-  let {
+  let { 
     firstName, 
     lastName, 
     email, 
     password
    } = req.body
+   ;
 
   serviceFriender.signUp(firstName, lastName, email, password).then((data) => {
     res.send(data);
@@ -45,17 +58,17 @@ router.post("/signUp", (req, res) => {
   }) 
 })
 
-router.post("/login", (req, res) => {
-  let { 
+router.get("/login/", (req, res) => {
+  let  {
     email, 
-    password 
-  } = req.body;
+    password
+   } = req.body
 
   serviceFriender.getLogins(email, password).then((data) => {
     res.send(data);
   }, (error) => {
     res.status(500).send({error: "There was an error completing this request."});
-  }) 
+  })
 });
 
 router.get("/matches/:userId", (req, res) => {
