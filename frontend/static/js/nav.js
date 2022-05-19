@@ -48,6 +48,7 @@ function loadNav() {
     aside.className = "nav-logo";
     let h1 = document.createElement("h1");
     h1.innerText = "Friender";
+    h1.className = "nav-header";
     aside.appendChild(h1);
     nav.appendChild(aside);
     let ul = document.createElement("ul");

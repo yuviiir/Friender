@@ -1,55 +1,46 @@
 @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Pacifico&display=swap');
 
 body{
-    background-color: #f0dfb3;
+    background-color: #FFF3AF;
     margin-top: 15%;
 }
 
-#nav-buttons-right {
-    padding-right: 10em;
-    right:0;
-    float:100%;
-}
-
 .matches-body{
-    display: flex;
-    justify-content:flex-start;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
 }
 
 .match-text{
-    font-family: 'Pacifico', cursive;
-    font-size: 100px;
+    font-family: 'Better Saturday', sans-serif;
+    font-size: 120px;
     padding-top: 10%;
     padding-bottom: 10%;
-    transform: rotate(-45deg);
-    margin-left: 5%;
+    margin-left: 10%;
 }
 
 .all-matches-container{
     background-color:#ffe497; 
-    display: flex;
-    margin-right: 5%;
+    display: grid;
     border-radius: 10px 10px 10px 10px;
-    right:0;
-    justify-content:flex-start;
-    flex-wrap: wrap;
+    grid-template-columns: 1fr 1fr 1fr;
+    max-width:85vh;
+    max-height: 85vh;
+    overflow: scroll;
 }
 
 .match-item{
-    display: inline;
-    right:0;
-    padding: 50px;
+    padding:3px;
     margin: 5px;
     background-color: white;
     overflow: auto;
-    width: 150px;
-    height:170px ;
+    width: 250px;
+    height:250px ;
     overflow: hidden;
 }
 
 #profile-img{
-    width: 150px;
-    height:150px;
+    width: 250px;
+    height: 250px;;
 }
 
 img:hover {

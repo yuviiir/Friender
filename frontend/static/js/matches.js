@@ -43,8 +43,9 @@ const getMatches = () =>
     return matches;
 }
 
-const addMatches = (matches)=> {
+// const addMatches = (matches)=> {
 
+<<<<<<< HEAD
     for (let i=0; i <matches.length; i++)
     {
        const section= document.createElement('section')
@@ -99,3 +100,26 @@ function outputMessage(message){
     </p>`;
     document.querySelector('[data-conversations]').appendChild(section);
 }
+=======
+//     for (let i=0; i <matches.length; i++)
+//     {
+//        const section= document.createElement('section')
+//        section.className='match-item'
+//        section.onclick = () => openChatPopup(matches[i].userID);
+//        const profileImg = document.createElement('img');
+//        profileImg.src=matches[i].img_url
+//        profileImg.id='profile-img';
+//        section.appendChild(profileImg)
+//        document.getElementById("matches-container").appendChild(section);
+//        console.log(section + "jshdhfj")
+//        console.log(section + '');
+//     }
+// }
+
+// function openChatPopup(userID) {
+//     console.log(userID)
+// }
+
+// window.onload=addMatches(getMatches());
+// console.log(getMatches());
+>>>>>>> origin/main
