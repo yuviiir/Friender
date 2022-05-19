@@ -75,7 +75,7 @@ const addMatches = (matches)=> {
     {
        const section= document.createElement('section')
        section.className='match-item'
-       section.onclick = () => openChatPopup(matches[i].userID);
+       section.onclick = () => openChatPopup(matches[i].userID, matches[i].name);
        const profileImg = document.createElement('img');
        profileImg.src=matches[i].img_url
        profileImg.className='profile-img';

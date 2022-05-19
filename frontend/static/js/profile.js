@@ -1,35 +1,26 @@
-let profile = {
-    id:4,
-    name:"Mark",
-    age:19,
-    location:"Johannesburg",
-    bio:"I love going out once in a while to have a great time with friends. I love dancing and I occasionally run on weekends too.",
-    interests: ["running", "animals", "napping", "swimming"],
-    show_me: ["men", "transgender"],
-    img_url:"static/images/pp.png"
-}
+let profile;
 // let profile=null;
 const getProfileData = () => {
     axios ({
         method : "GET",
-        url : `http://localhost:3002/userProfileDetails/`,
+        url : `http://localhost:3002/api/getUserProfileDetails`,
         params: {
-            userId: sessionStorage.getItem('id')
+            userId: JSON.parse(sessionStorage.getItem("userDetails")).userId
         }
-
     }).then  ((data) => {
-        console.log(data)
-        profile=data
+        profile = data.data;
     }).catch ((err)=> {
         console.log(err)
     })
 }
 
 const populateProfileData = () => {
+    getProfileData();
+    console.log(profile)
     const main_info_name = document.getElementById('main-info-id')
-    main_info_name.appendChild(document.createTextNode(`${profile.name}`))
+    main_info_name.appendChild(document.createTextNode(`${profile.firstName}`))
     const main_info_age = document.getElementById('main-info-Age')
-    main_info_age.appendChild(document.createTextNode(` ${profile.age}`))
+    main_info_age.appendChild(document.createTextNode(` ${profile.userAge}`))
     const bio_section = document.getElementById('bio-id')
     bio_section.appendChild(document.createTextNode(`${profile.bio}`))
     const interests_button_container = document.getElementById('interests-buttons-id')
@@ -55,4 +46,4 @@ const populateProfileData = () => {
 }
 
 
-window.onload=populateProfileData()
+window.onload=populateProfileData();
