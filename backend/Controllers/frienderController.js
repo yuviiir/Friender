@@ -128,8 +128,6 @@ router.post("/like", (req, res) => {
   }) 
 });
 
-// Messages API may change to sockets:
-
 router.post("insertInterest", (req, res) => {
   let userId = req.query.friendId;
   let interestId = req.query.userId;
