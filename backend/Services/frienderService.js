@@ -4,8 +4,8 @@ const dbConnection = require('../DataAccess/Config')
 module.exports.test = function() { 
   return new Promise(function(resolve, reject) {
     let userId = 52;
-    let SQL = `SELECT userId FROM likedUsers lu WHERE EXISTS (SELECT LikedUser FROM likedUsers lu2 WHERE lu2.userId = '${userId}' AND lu2.LikedUser = lu.userID) AND lu.LikedUser = '${userId}'`
-    // let SQL = `SELECT * FROM likedUsers`
+    // let SQL = `SELECT userId FROM likedUsers lu WHERE EXISTS (SELECT LikedUser FROM likedUsers lu2 WHERE lu2.userId = '${userId}' AND lu2.LikedUser = lu.userID) AND lu.LikedUser = '${userId}'`
+    let SQL = `SELECT * FROM likedUsers`
     dbConnection.query(SQL, function (err, result) {
       if (err) {
         console.error(err);
@@ -126,7 +126,20 @@ module.exports.likeFriend = function(userId, friendId) {
         reject(err);
         return;
       }
-      resolve({success: true});
+      SQL = `SELECT userId FROM likedUsers WHERE userId = '${friendId}' AND LikedUSer = '${userId}'`
+      dbConnection.query(SQL, function (err, result) {
+        if (err) {
+          console.error(err);
+          reject(err);
+          return;
+        }
+        if (result.length) {
+          resolve({match: true});
+        }
+        else {
+          resolve({match: false});
+        }
+      });
     });
   });
 }
