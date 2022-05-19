@@ -1,5 +1,3 @@
-// const axios = require('axios').default;
-
 let overlay = document.getElementById("overlay");
 axios.defaults.crossDomain = true;
 let popup = {
@@ -28,11 +26,11 @@ function initalizeForm() {
                 display: "Password",
                 error: "Please enter a valid password",
                 type: "password",
-                validation: "/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/"
+                validation: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/
             }
         },
         create: {
-            fName: {
+            firstName: {
 				value: null,
 				isValid: false,
 				isTouched: false,
@@ -41,7 +39,7 @@ function initalizeForm() {
                 error: "Please enter a valid first name",
 				validation: /^[a-zA-Z ]{2,50}$/
 			},
-			lName: {
+			lastName: {
 				value: null,
 				isValid: false,
 				isTouched: false,
@@ -141,44 +139,37 @@ function closePopup (type) {
 }
 
 function submit(type) {
-    let payload = formData[type];
-    let data = new URLSearchParams ({
-        email: payload.email.value,
-        password: payload.password.value
-    });
-
-    const dataSignUp = {
-        firstName: payload.fName.value,
-        lastName: payload.lName.value,
-        email: payload.email.value,
-        password: payload.password.value
+    let payload = {};
+    for (let key in formData[type]) {
+        payload[key] = formData[type][key].value;
     }
-
     if (type == 'login') {
         axios({
             method: "GET",
             url: `http://localhost:3002/api/login/`,
-            params: data
+            params: payload
         }).then((data) => {
             console.log(data)
+            sessionStorage.setItem("userDetails", data)
         }).catch((err) => {
             console.log("help", err);
         })
     }
-    else
-    {
+    else {
         axios({
             method: "POST",
             url: `http://localhost:3002/api/signUp/`,
             headers: {
                 'Content-Type': 'application/json',
             },
-            data: dataSignUp
+            data: payload
         }).then((data) => {
             console.log(data)
+            sessionStorage.setItem("userDetails", data)
         }).catch((err) => {
             console.log("help", err);
         })
-    }
+    };
+
     // window.location.href = "/home"
 }
