@@ -131,10 +131,10 @@ router.post("/like", (req, res) => {
 // Messages API may change to sockets:
 
 router.post("insertInterest", (req, res) => {
-  let userId = req.query.friendId;
-  let interestId = req.query.userId;
+  let userId = req.query.userId;
+  let interests = req.query.interests
 
-  serviceFriender.insertInterests(userId, interestId).then((data) => {
+  serviceFriender.insertInterests(userId, interests).then((data) => {
     res.send(data);
   }, (error) => {
     res.status(500).send({error: "There was an error completing this request."});

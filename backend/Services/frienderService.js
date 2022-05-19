@@ -224,20 +224,32 @@ module.exports.postUserProfileDetails = function(profilePictureURL, bio, userAge
   });
 }
 
-module.exports.insertInterests = function(userId, interestId) { 
+module.exports.insertInterests = function(userId, interests) { 
   return new Promise(function(resolve, reject) {
-    let SQL = `INSERT INTO userInterest (userId, interestId) VALUES (${userId}, ${interestId})`
-    dbConnection.query(SQL, function (err, result) {
-      if (err) {
-        throw err;
-      }
-      if (result.affectedRows >= 1) {
+    let complete = false;
+    for (let i = 0; i < interests.length; i++) {
+      let SQL = `INSERT INTO userInterest (userId, interestId) VALUES (${userId}, ${interests[i]})`
+      dbConnection.query(SQL, function (err, result) {
+        if (err) {
+          throw err;
+        }
+        if (result.affectedRows >= 1) {
+          complete = true
+        }
+        else{
+          complete = false
+        }
+      });
+
+      if (complete)
+      {
         resolve({message: "success"});
       }
-      else{
+      else
+      {
         reject({message: "failed"})
       }
-    });
+    }
   });
 }
 
