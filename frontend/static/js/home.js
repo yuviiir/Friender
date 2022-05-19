@@ -74,14 +74,14 @@ function renderNextUser() {
 }
 
 function likeUser(userId) {
-    if (isMatch) {
-        openPopup();
-    }
+    // if (isMatch) {
+    //     openPopup();
+    // }
     nextUser();
 }
 
 function openMatchPopup() {
-
+    
 }
 
 function openPopup() {

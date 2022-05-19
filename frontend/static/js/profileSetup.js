@@ -189,6 +189,7 @@ function submitProfile() {
         lookingFor: genderId,
         gender: myGenderId
     }
+    document.getElementById('overlay').style.display = "block";
     if(submitData == true)
         axios({
             method: "POST",
@@ -199,6 +200,7 @@ function submitProfile() {
             if (data.data.message === 'success')
                 submitInterests();
         }).catch((err) => {
+            document.getElementById('overlay').style.display = "none";
             console.log("help", err);
         })
     
@@ -218,6 +220,7 @@ function submitInterests() {
         if (data.data.message === 'success')
             window.location.href = "/home";
     }).catch((err) => {
+        document.getElementById('overlay').style.display = "none";
         console.log("help", err);
     })
 }

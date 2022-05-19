@@ -1,4 +1,5 @@
 let overlay = document.getElementById("overlay");
+let overlay2 = document.getElementById("overlay2");
 let popup = {
     login: document.getElementById("loginPopup"),
     create: document.getElementById("createPopup"),
@@ -151,6 +152,7 @@ function submit(type) {
     for (let key in formData[type]) {
         payload[key] = formData[type][key].value;
     }
+    overlay2.style.display = 'block';
     if (type == 'login') {
         axios({
             method: "GET",
@@ -161,6 +163,7 @@ function submit(type) {
             sessionStorage.setItem("userDetails", JSON.stringify(data.data))
             window.location.href = "/home";
         }).catch((err) => {
+            overlay2.style.display = 'none';
             console.log("help", err);
         })
     }
@@ -177,6 +180,7 @@ function submit(type) {
             sessionStorage.setItem("userDetails", JSON.stringify(data.data.userDetails))
             window.location.href = "/profileSetup";
         }).catch((err) => {
+            overlay2.style.display = 'none';
             console.log("help", err);
         })
     };
