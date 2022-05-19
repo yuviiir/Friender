@@ -12,6 +12,23 @@
                 <section class="match-text">Matches</section>
                 <section  class="all-matches-container" id="amc">       
         </section>
+        <section id="overlay" class="overlay"></section>
+        <section class="popup" id="chatPopup">
+            <section class="chat-header">
+                <h1 class="chat-heading" >Friends</h1>
+                <button id="popupclose" class="popup-close" onclick="closePopup()">X</button>
+            </section>
+            <section class="chat-main">
+                <section class="chat-conversation" data-conversations>
+                       
+                    </section>
+            </section>
+            <section class="chat-message" >
+                <input type="text" class="messageBox" placeholder="Please enter your message here" required data-msg >
+                <button type="submit" class="btnSend" onclick="sendMessage()">Send</button>
+            </section>
+        </section>
+        <script src="/socket.io/socket.io.js"></script>
         <script src="static/js/matches.js"></script>
         <script src="static/js/nav.js"></script>
     </body>
