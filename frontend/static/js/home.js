@@ -1,9 +1,10 @@
 let overlay = document.getElementById("overlay");
 let popup = document.getElementById("matchPopup");
 let image = document.getElementById("popupImage");
-let potentialFriends = []
+let potentialFriends = [];
+let userId = JSON.parse(sessionStorage.getItem("userDetails")).userId;
 
-function getPotentialFriends(userId) {
+function getPotentialFriends() {
         axios({
             method: "GET",
             url: `http://localhost:3002/api/getFriends/`,
@@ -73,15 +74,21 @@ function renderNextUser() {
     }
 }
 
-function likeUser(userId) {
-    // if (isMatch) {
-    //     openPopup();
-    // }
-    nextUser();
-}
-
-function openMatchPopup() {
-    
+function likeUser(friendId) {
+    axios({
+        method: "POST",
+        url: `http://localhost:3002/api/like/`,
+        data: {
+            userId: userId,
+            friendId: friendId
+        }
+    }).then((res) => {
+        if (res.data.match) 
+            openPopup();
+        nextUser();
+    }).catch((err) => {
+        console.log("help", err);
+    })
 }
 
 function openPopup() {
@@ -96,10 +103,19 @@ function closePopup() {
 }
 
 
-function dislikeUser(userId) {
-    // dislike api
-    console.log("dislike", userId)
-    nextUser();
+function dislikeUser(friendId) {
+    axios({
+        method: "POST",
+        url: `http://localhost:3002/api/dislike/`,
+        data: {
+            userId: userId,
+            friendId: friendId
+        }
+    }).then((res) => {
+        nextUser();
+    }).catch((err) => {
+        console.log("help", err);
+    })
 }
 
 function nextUser() {

@@ -250,7 +250,7 @@ module.exports.likeFriend = function(userId, friendId) {
 module.exports.dislikedFriend = function(userId, friendId) { 
 
   return new Promise(function(resolve, reject) {
-    let SQL = `INSERT INTO dislikedUser (userId, dislikedUser) VALUES (${userId}, ${dislikedFriend})`
+    let SQL = `INSERT INTO dislikeUsers (userId, dislikedUser) VALUES (${userId}, ${friendId})`
     dbConnection.query(SQL, function (err, result) {
       if (err) {
         console.error(err);
@@ -368,6 +368,44 @@ module.exports.updateUserProfileDetails = function(profilePictureURL, bio, userA
       }
       else{
         reject({message: "failed update"})
+      }
+    });
+  });
+}
+
+module.exports.postMessage = function(recipientId, senderId, message, dateSent) { 
+  return new Promise(function(resolve, reject) {
+    let SQL = `INSERT INTO chats (receiverUser, sendingUser, message, dateSent) VALUES ('${recipientId}', '${senderId}', ${message}, ${dateSent})`
+    dbConnection.query(SQL, function (err, result) {
+      if (err) {
+        throw err;
+      }
+      if (result.affectedRows >= 1) {
+        resolve({message: "success"});
+      }
+      else{
+        reject({message: "failed"})
+      }
+    });
+  });
+}
+
+module.exports.getMessages = function(userId, friendId) { 
+  return new Promise(function(resolve, reject) {
+    let SQL = `SELECT
+      receiverUser, sendingUser, message, dateSent 
+      FROM chats 
+      WHERE (receiverUser = ${userId} AND sendingUser = ${friendId}) 
+      OR (receiverUser = ${friendId} AND sendingUser = ${userId})`
+    dbConnection.query(SQL, function (err, result) {
+      if (err) {
+        throw err;
+      }
+      if (result.length) {
+        resolve(result);
+      }
+      else{
+        reject({message: "no chats between users"})
       }
     });
   });

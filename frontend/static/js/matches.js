@@ -8,10 +8,7 @@ function openChatPopup(id, name) {
     document.getElementById('overlay').style.display = 'block';
     document.getElementById('chatPopup').style.display = "block";
     console.log(id);
-    currentUserName = name;
-
-
-    
+    currentUserName = JSON.parse(sessionStorage.getItem("userDetails")).firstName;
 }
 
 

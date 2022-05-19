@@ -141,16 +141,14 @@ router.post("/dislike", (req, res) => {
   let {
     userId,
     friendId
-   } = req.body;
-
-  serviceFriender.dislikeFriend(userId, friendId).then((data) => {
+  } = req.body;
+  
+  serviceFriender.dislikedFriend(userId, friendId).then((data) => {
     res.send(data);
   }, (error) => {
     res.status(500).send({error: "There was an error completing this request."});
   }) 
 });
-
-// Messages API may change to sockets:
 
 router.post("/insertInterest", (req, res) => {
   let userId = req.body.userId;
@@ -174,11 +172,30 @@ router.post("updateInterest", (req, res) => {
   })
 });
 
-router.post("/message/:recipientId", (req, res) => {
-    let recipientId = req.params.userId;
-    let { senderId, message } = req.body;
+router.get("/messages", (req, res) => {
+  let userId = req.query.userId;
+  let friendId = req.query.friendId;
 
-    res.status(418).send("All good things to those who wait.");
+  serviceFriender.getMessages(userId, friendId).then((data) => {
+    res.send(data);
+  }, (error) => {
+    res.status(500).send({error: "There was an error completing this request."});
+  })
+});
+
+router.post("/message", (req, res) => {
+    let { 
+      recipientId, 
+      senderId, 
+      message,
+      dateSent
+    } = req.body;
+
+    serviceFriender.postMessage(recipientId, senderId, message, dateSent).then((data) => {
+      res.send(data);
+    }, (error) => {
+      res.status(500).send({error: "There was an error completing this request."});
+    })
 });
 
 module.exports = router
