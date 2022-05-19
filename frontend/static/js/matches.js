@@ -1,16 +1,32 @@
-const { AlexaForBusiness } = require("aws-sdk");
+// const { AlexaForBusiness } = require("aws-sdk");
 
 const msg = document.querySelector('[data-msg]');
 const conversation = document.querySelector('[data-conversations]')
 const socket = io();
 let currentUserName;
 
+let selectedchatid;
 
 function openChatPopup(id, name) {
     document.getElementById('overlay').style.display = 'block';
     document.getElementById('chatPopup').style.display = "block";
     console.log(id);
     currentUserName = JSON.parse(sessionStorage.getItem("userDetails")).firstName;
+    selectedchatid = id;
+
+        axios({
+            method: 'GET',
+            url: 'http://localhost:3002/api/messages',
+            params: {
+              recipientId : selectedchatid,
+              senderId : JSON.parse(sessionStorage.getItem("userDetails")).userId
+            }
+        }).then ((data) => {
+          console.log(data)
+          }).catch ((err)=> {
+          console.log(err)
+      })
+
 }
 
 
@@ -28,21 +44,27 @@ function sendMessage(){
     socket.emit('chatMessage', txtmsg, currentUserName);
     msg.value = '';
     msg.focus();
-
-  const getMessages = () => {
-      axios({
-          method: 'GET',
-          url: 'http:/localhost:3002/api/getMessages',
-          params: {
-            recipientId : currentUserName,
-            senderId : JSON.parse(sessionStorage.getItem("userDetails")).userId,
-            message : txtmsg,
-            dateSent : ""
-          }
+    
+        axios({
+            method: 'POST',
+            url: 'http://localhost:3002/api/message',
+            data: {
+              recipientId : selectedchatid,
+              senderId : JSON.parse(sessionStorage.getItem("userDetails")).userId,
+              message: txtmsg,
+              dateSent: '13:11 am'
+            }
+        }).then ((data) => {
+          console.log(data)
+          }).catch ((err)=> {
+          console.log(err)
       })
   }
 
-}
+
+
+
+
 
 function outputMessage(message){
     const section = document.createElement('section');
@@ -97,4 +119,3 @@ const populateMatches = ()=> {
 
 
 window.onload=getMatches();
-console.log(getMatches());

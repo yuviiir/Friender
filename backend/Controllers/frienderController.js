@@ -173,8 +173,8 @@ router.post("updateInterest", (req, res) => {
 });
 
 router.get("/messages", (req, res) => {
-  let userId = req.query.userId;
-  let friendId = req.query.friendId;
+  let userId = req.query.senderId;
+  let friendId = req.query.recipientId;
 
   serviceFriender.getMessages(userId, friendId).then((data) => {
     res.send(data);
