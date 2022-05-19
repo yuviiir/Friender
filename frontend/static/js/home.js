@@ -3,24 +3,27 @@ let popup = document.getElementById("matchPopup");
 let image = document.getElementById("popupImage");
 let potentialFriends = [
     {
-        userID: 1,
-        name: "Yuvir Sharma",
+        userId: 1,
+        firstName: "Yuvir",
+        lastName: "Sharma",
         interests: ["Dogs", "Marvel", "F1", "Taylor Swift"],
         bio: "This is a bio. Lol. wefwebifwebof webiowef woiefbowef  nwebwenv  weoivwebwe vnvwpewvep heicneocepecn",
         age: 21,
         profilePicture: "static/images/profilePictures/profile1.png"
     },
     {
-        userID: 1,
-        name: "Jared Mcmillan",
+        userId: 1,
+        firstName: "Jared",
+        lastName: "Mcmillan",
         interests: ["Cats", "Movies", "DC", "Gaming"],
         bio: "Hello, my name is Jerrry",
         age: 23,
         profilePicture: "static/images/profilePictures/profile2.png"
     },
     {
-        userID: 1,
-        name: "Lorde",
+        userId: 1,
+        firstName: "Lorde",
+        lastName: "Antonoff",
         interests: ["Lizards", "TV", "F1", "Lorde"],
         bio: "I am my mothers child *shhhh*",
         age: 22,
@@ -53,10 +56,10 @@ function renderNextUser() {
         let likeButton = document.createElement("img");
         likeButton.className = "image-button";
         likeButton.src = "static/images/heart.png";
-        likeButton.onclick = () => likeUser(nextUser.userID);
+        likeButton.onclick = () => likeUser(nextUser.userId);
         let dislikeButton = document.createElement("img");
         dislikeButton.src = "static/images/cross.png";
-        dislikeButton.onclick = () => dislikeUser(nextUser.userID);
+        dislikeButton.onclick = () => dislikeUser(nextUser.userId);
         buttonsSection.appendChild(dislikeButton);
         buttonsSection.appendChild(likeButton);
         pictureSection.appendChild(buttonsSection);
@@ -64,8 +67,12 @@ function renderNextUser() {
         detailsSection.className = "details-section";
         let nameDetail = document.createElement("h1");
         nameDetail.className = "name-detail";
-        nameDetail.innerText = nextUser.name + ", " + nextUser.age
+        nameDetail.innerText = `${nextUser.firstName} ${nextUser.lastName}`
         detailsSection.appendChild(nameDetail);
+        let ageDetail = document.createElement("h1");
+        ageDetail.className = "age-detail";
+        ageDetail.innerText = `${nextUser.age}`
+        detailsSection.appendChild(ageDetail);
         let bioDetail = document.createElement("section");
         bioDetail.className = "bio-detail";
         bioDetail.innerText = nextUser.bio;
@@ -84,9 +91,9 @@ function renderNextUser() {
     }
 }
 
-function likeUser(userID) {
+function likeUser(userId) {
     // like api
-    console.log("like", userID)
+    console.log("like", userId)
     let isMatch = true;
 
     if (isMatch) {
@@ -111,9 +118,9 @@ function closePopup() {
 }
 
 
-function dislikeUser(userID) {
+function dislikeUser(userId) {
     // dislike api
-    console.log("dislike", userID)
+    console.log("dislike", userId)
     nextUser();
 }
 
@@ -121,5 +128,6 @@ function nextUser() {
     potentialFriends.shift();
     renderNextUser()
 }
+
 
 renderNextUser()

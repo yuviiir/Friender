@@ -142,33 +142,35 @@ function submit(type) {
     for (let key in formData[type]) {
         payload[key] = formData[type][key].value;
     }
-    if (type == 'login') {
-        axios({
-            method: "GET",
-            url: `http://localhost:3002/api/login/`,
-            params: payload
-        }).then((data) => {
-            console.log(data)
-            sessionStorage.setItem("userDetails", data)
-        }).catch((err) => {
-            console.log("help", err);
-        })
-    }
-    else {
-        axios({
-            method: "POST",
-            url: `http://localhost:3002/api/signUp/`,
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            data: payload
-        }).then((data) => {
-            console.log(data)
-            sessionStorage.setItem("userDetails", data)
-        }).catch((err) => {
-            console.log("help", err);
-        })
-    };
+    sessionStorage.setItem("userDetails", JSON.stringify(payload))
+    // if (type == 'login') {
+    //     axios({
+    //         method: "GET",
+    //         url: `http://localhost:3002/api/login/`,
+    //         params: payload
+    //     }).then((data) => {
+    //         console.log(data)
+    //         sessionStorage.setItem("userDetails", data)
+    //     }).catch((err) => {
+    //         console.log("help", err);
+    //     })
+    // }
+    // else {
+    //     axios({
+    //         method: "POST",
+    //         url: `http://localhost:3002/api/signUp/`,
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //         },
+    //         data: payload
+    //     }).then((data) => {
+    //         console.log(data)
+    //         sessionStorage.setItem("userDetails", data)
+    //     }).catch((err) => {
+    //         console.log("help", err);
+    //     })
+    // };
 
-    // window.location.href = "/home"
+
+    window.location.href = "/home"
 }

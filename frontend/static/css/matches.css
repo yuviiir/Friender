@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Pacifico&display=swap');
 
 body{
-    background-color: #FFF3AF;
+    background-color: #f0dfb3;
     margin-top: 15%;
 }
 
@@ -23,9 +23,9 @@ body{
     display: grid;
     border-radius: 10px 10px 10px 10px;
     grid-template-columns: 1fr 1fr 1fr;
-    max-width:85vh;
+    max-width:87vh;
     max-height: 85vh;
-    overflow: scroll;
+    overflow-y: scroll;
 }
 
 .match-item{
