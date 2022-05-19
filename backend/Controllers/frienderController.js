@@ -103,7 +103,7 @@ router.post("/postUserProfileDetails", (req, res) => {
   }, (err) => res.status(500).send({error: "There was an error completing this request."}))
 });
 
-router.patch("/updatUserProfileDetails/:userId", (req, res) => {
+router.post("/updatUserProfileDetails", (req, res) => {
   let userId = req.query.userId;
   let profilePictureURL = req.query.profilePictureURL;
   let bio = req.query.bio;
