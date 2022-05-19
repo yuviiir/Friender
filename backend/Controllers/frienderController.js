@@ -94,11 +94,10 @@ router.post("/postUserProfileDetails", (req, res) => {
   let userId = req.query.userId;
   let profilePictureURL = req.query.profilePictureURL;
   let bio = req.query.bio;
-  let userAge = req.query.userAge;
   let lookingFor = req.query.lookingFor;
   let gender = req.query.gender;
 
-  serviceFriender.postUserProfileDetails(profilePictureURL, bio, userAge, lookingFor, gender, userId).then((data) => {
+  serviceFriender.postUserProfileDetails(profilePictureURL, bio, lookingFor, gender, userId).then((data) => {
     res.send(data)
   }, (err) => res.status(500).send({error: "There was an error completing this request."}))
 });

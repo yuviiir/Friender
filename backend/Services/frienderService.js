@@ -209,7 +209,7 @@ module.exports.getUserProfileDetails = function(userId) {
 
 module.exports.postUserProfileDetails = function(profilePictureURL, bio, userAge, lookingFor, userGender, userId) { 
   return new Promise(function(resolve, reject) {
-    let SQL = `INSERT INTO userProfileDetails (profilePictureURL, bio, userAge, lookingFor, userGender, userId) VALUES ('${profilePictureURL}', '${bio}', ${userAge}, ${lookingFor}, ${userGender}, ${userId})`
+    let SQL = `INSERT INTO userProfileDetails (profilePictureURL, bio, lookingFor, userGender, userId) VALUES ('${profilePictureURL}', '${bio}', ${userAge}, ${lookingFor}, ${userGender}, ${userId})`
     dbConnection.query(SQL, function (err, result) {
       if (err) {
         throw err;
