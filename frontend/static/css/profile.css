@@ -14,6 +14,10 @@ body {
     flex-direction:column;
 }
 
+.image-pic {
+    align-self: center;
+}
+
 .name-and-location {
     display: flex;
     align-items: center;
