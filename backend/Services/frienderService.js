@@ -176,10 +176,10 @@ module.exports.getMatches = function(userId) {
     FROM likedUsers lu 
     INNER JOIN userProfileDetails ON userProfileDetails.userId = lu.LikedUser 
     INNER JOIN loginInDetails ON loginInDetails.userId = userProfileDetails.userId
-    LEFT JOIN userInterest ON userInterest.userId = userProfileDetails.userId
-    LEFT JOIN interests ON interests.interestId = userInterest.interestId
-    LEFT JOIN genderLookUp ON genderLookUp.genderID = userProfileDetails.lookingFor 
-    LEFT JOIN genderLookUp u ON genderLookUp.genderID = userProfileDetails.userId 
+    INNER JOIN userInterest ON userInterest.userId = userProfileDetails.userId
+    INNER JOIN interests ON interests.interestId = userInterest.interestId
+    INNER JOIN genderLookUp ON genderLookUp.genderID = userProfileDetails.lookingFor 
+    INNER JOIN genderLookUp u ON genderLookUp.genderID = userProfileDetails.userId 
     WHERE EXISTS (SELECT LikedUser FROM likedUsers lu2 WHERE lu2.userId = '${userId}' AND lu2.LikedUser = lu.userID) AND lu.LikedUser = '${userId}'`
     dbConnection.query(SQL, function (err, result) {
       if (err) {
@@ -187,8 +187,12 @@ module.exports.getMatches = function(userId) {
         reject(err);
         return;
       }
-      if (result.length) {
+      if (result.length >= 1 && result[0].userId == null) {
+        console.log(result, "hey")
         resolve(result);
+      }
+      else {
+        resolve([]);
       }
     });
   });
@@ -291,10 +295,11 @@ module.exports.getUserProfileDetails = function(userId) {
         throw err;
       }
       if (result.length >= 1) {
+        console.log(result)
         resolve(result);
       }
       else{
-        reject({})
+        resolve({})
       }
     });
   });
