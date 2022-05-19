@@ -39,13 +39,8 @@ app.use(function(req,res){
 //run when the client connections
 
 io.on('connection', socket => {
-    console.log('New WS Connectin');
-    socket.emit('message', formatMessage('System', 'Welcome to the Friends Chat'))
-
-    socket.broadcast.emit('message', formatMessage('System','User has joined the chat'))
-
-    socket.on('chatMessage', (txtmsg) =>{
-        io.emit('message', formatMessage('You', txtmsg))
+    socket.on('chatMessage', (txtmsg, name) =>{  
+        io.emit('message', formatMessage(name, txtmsg))
     })
 });
 

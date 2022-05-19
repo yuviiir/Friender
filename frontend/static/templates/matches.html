@@ -10,7 +10,7 @@
     <body>
         <section class="matches-body">
                 <section class="match-text">Matches</section>
-                <section  class="all-matches-container">
+                <section id="all-matches-container" class="all-matches-container">
                     <section class="match-item">
                         <img id="profile-img" src="static/images/pp.png" >
                    </section>
@@ -26,31 +26,17 @@
                   <section class="match-item">
                     <img id="profile-img" src="static/images/pp.png" > 
                   </section> 
-
-  
-        
+                </section>
         </section>
+        <section id="overlay" class="overlay"></section>
         <section class="popup" id="chatPopup">
             <section class="chat-header">
                 <h1 class="chat-heading" >Friends</h1>
-                <button id="popupclose" class="popup-close" onclick="closePopup('login')">X</button>
+                <button id="popupclose" class="popup-close" onclick="closePopup()">X</button>
             </section>
             <section class="chat-main">
                 <section class="chat-conversation" data-conversations>
-                        <section class="message">
-                            <p class="meta">Brad <span>9:12pm</span></p>
-                            <p class="text">
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi,
-                                repudiandae.
-                            </p>
-                        </section>
-                        <section class="message">
-                            <p class="meta">Mary <span>9:15pm</span></p>
-                            <p class="text">
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi,
-                                repudiandae.
-                            </p>
-                        </section>
+                       
                     </section>
             </section>
             <section class="chat-message" >

@@ -38,6 +38,8 @@ body{
     overflow: hidden;
 }
 
+.match-item
+
 #profile-img{
     width: 250px;
     height: 250px;;
@@ -54,22 +56,32 @@ img:hover {
     -webkit-transform: scale(1.5); /* Safari 3-8 */
     transform: scale(1.5); 
 }
+.overlay {
+    display: none;
+    position: absolute;
+    background: black;
+    width: 100%;
+    height: 100%;
+    opacity: 0.598;
+    z-index: 100;
+    top: 0;
+    left: 0;
+}
 
 /* css for popup */
 .popup {
-    /* display: none; */
+    display: none;
     position: absolute;
-    top: 50%;
-    left: 50%;
     background: white;
-    width: 500px;
-    height: 500px;
+    width: 40%;
+    height: 40%;
     border-radius: 20px;
     z-index: 200;
     -webkit-animation: fadeIn 1s;
     animation: fadeIn 1s;
-    left: auto;
-    top: auto;
+    top: 30%;
+    left: 0;
+    margin: 0 30%;
 }
 
 .popup-close {
@@ -89,21 +101,25 @@ img:hover {
 }
 
 .chat-conversation{
-    height: 330px;
+    height: 15em;
+    overflow-y: scroll;
 }
 
 .message{
     justify-items: flex-start;
     margin:1em;
-    padding: 0px 2px 0px 2px;
+    padding:5px;
     background-color: #ffe497;
     border-radius: 1em;
     
 }
 
 .chat-message{
+    bottom: 0;
+    position: absolute;
+    width: 90%;
+    margin: 5%;
     display: flex;
-    height: fit-content;
 }
 
 

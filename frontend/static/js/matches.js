@@ -1,6 +1,7 @@
 const msg = document.querySelector('[data-msg]');
 const conversation = document.querySelector('[data-conversations]')
 const socket = io();
+let currentUserName;
 
 
 const getMatches = () =>
@@ -43,27 +44,29 @@ const getMatches = () =>
     return matches;
 }
 
-// const addMatches = (matches)=> {
-
-<<<<<<< HEAD
+const addMatches = (matches)=> {
     for (let i=0; i <matches.length; i++)
     {
        const section= document.createElement('section')
        section.className='match-item'
-       section.onclick = () => openChatPopup(matches[i].name);
+       section.onclick = () => openChatPopup(matches[i].id, matches[i].name);
        const profileImg = document.createElement('img');
        profileImg.src=matches[i].img_url
        profileImg.id='profile-img';
        section.appendChild(profileImg)
-       document.getElementById("matches-container").appendChild(section);
+       document.getElementById("all-matches-container").appendChild(section);
        console.log(section + "jshdhfj")
        console.log(section + '');
     }
 }
 
-function openChatPopup(name) {
-    console.log(name)
-    let popupHeade
+function openChatPopup(id, name) {
+    document.getElementById('overlay').style.display = 'block';
+    document.getElementById('chatPopup').style.display = "block";
+    console.log(id);
+    currentUserName = name;
+
+
     
 }
 
@@ -73,9 +76,7 @@ console.log(getMatches());
 // enabling the chat functionality
 
 socket.on('message', message=>{
-    console.log(message);
     outputMessage(message);
-
     conversation.scrollTop = conversation.scrollHeight;
 });
 
@@ -83,8 +84,7 @@ socket.on('message', message=>{
 function sendMessage(){
     let txtmsg = msg.value;
     //emitting the message to the server
-    socket.emit('chatMessage', txtmsg);
-
+    socket.emit('chatMessage', txtmsg, currentUserName);
     msg.value = '';
     msg.focus();
 
@@ -100,7 +100,12 @@ function outputMessage(message){
     </p>`;
     document.querySelector('[data-conversations]').appendChild(section);
 }
-=======
+
+function closePopup(){
+    document.getElementById('overlay').style.display = 'none';
+    document.getElementById('chatPopup').style.display = "none";
+}
+
 //     for (let i=0; i <matches.length; i++)
 //     {
 //        const section= document.createElement('section')
@@ -122,4 +127,3 @@ function outputMessage(message){
 
 // window.onload=addMatches(getMatches());
 // console.log(getMatches());
->>>>>>> origin/main
