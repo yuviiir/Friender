@@ -48,13 +48,14 @@ router.post("/signUp", (req, res) => {
     firstName, 
     lastName, 
     email, 
-    password
+    password,
+    userAge
    } = req.body
    ;
 
    let passwordHash = bcrypt.hashSync(password, 10);
 
-  serviceFriender.signUp(firstName, lastName, email, passwordHash).then((data) => {
+  serviceFriender.signUp(firstName, lastName, email, passwordHash, userAge).then((data) => {
     res.send(data);
   }, (error) => {
     res.status(500).send({error: "There was an error completing this request."});

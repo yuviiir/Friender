@@ -56,6 +56,8 @@ module.exports.getLogins = function(email, password) {
         reject(err);
       }
       if (result.length >= 1) {
+        if (bcrypt.compareSync(password, result[0].password))
+        {
         let SQL = `SELECT userId, firstName, lastName, email FROM loginInDetails WHERE email = '${email}' AND password = '${result[0].password}'`
         dbConnection.query(SQL, function (err, result) {
           if (err) {
@@ -70,6 +72,10 @@ module.exports.getLogins = function(email, password) {
           }
         });
       }
+      else{
+        resolve({error: "incorrect login"});
+      }
+    }
     });
   });
 }
@@ -93,7 +99,7 @@ module.exports.getPotentionalMatches = function(lowerBoundAge, higherBoundAge, i
   });
 }
 
-module.exports.signUp = function(firstName, lastName, email, password) {
+module.exports.signUp = function(firstName, lastName, email, password, userAge) {
   return new Promise(function(resolve, reject) {
     let sqlNoDuplicates = `SELECT * FROM loginInDetails WHERE email = '${email}'`;
 
@@ -110,7 +116,7 @@ module.exports.signUp = function(firstName, lastName, email, password) {
       }
       else
       {
-        SQL = `INSERT INTO loginInDetails (firstName, lastName, email, password) VALUES ('${firstName}', '${lastName}', '${email}', '${password}')`
+        SQL = `INSERT INTO loginInDetails (firstName, lastName, email, password, userAge) VALUES ('${firstName}', '${lastName}', '${email}', '${password}', ${userAge})`
         dbConnection.query(SQL, function (err, result) {
           if (err) {
             console.error(err);
@@ -127,15 +133,16 @@ module.exports.getFriends = function(userId) {
   let SQLGetPeeps = `SELECT loginInDetails.userId, 
   loginInDetails.firstName, 
   userProfileDetails.bio, 
-  userProfileDetails.profilePictureURL, 
-  interests.interestDescription,
-  userProfileDetails.userAge from loginInDetails 
+  userProfileDetails.profilePictureURL,
+  loginInDetails.userAge, 
+  group_concat(interests.interestDescription separator ', ') as interests from loginInDetails 
   INNER JOIN userProfileDetails ON userProfileDetails.userId = loginInDetails.userId 
   INNER JOIN userInterest ON userInterest.userId = userProfileDetails.userId 
   INNER JOIN interests ON interests.interestId = userInterest.interestId 
   WHERE interests.interestId IN (SELECT interests.interestId FROM interests INNER JOIN userInterest ON userInterest.interestId = interests.interestId WHERE userInterest.userId = ${userId}) 
   AND loginInDetails.userId != ${userId}
-  AND loginInDetails.userId NOT IN (SELECT DISTINCT LikedUser FROM likedUsers WHERE userId = ${userId})`
+  AND loginInDetails.userId NOT IN (SELECT DISTINCT LikedUser FROM likedUsers WHERE userId = ${userId})
+  GROUP BY loginInDetails.userId`
 
   return new Promise(function(resolve, reject) {
     dbConnection.query(SQLGetPeeps, function (err, result) {
@@ -174,7 +181,7 @@ module.exports.getUserProfileDetails = function(userId) {
     loginInDetails.email, 
     userProfileDetails.profilePictureURL, 
     userProfileDetails.bio, 
-    userProfileDetails.userAge, 
+    loginInDetails.userAge, 
     genderLookUp.genderDescription as 'lookingFor', 
     u.genderDescription as 'gender',
     group_concat(interests.interestDescription separator ', ') as interests
