@@ -1,6 +1,7 @@
-let profile;
+
 // let profile=null;
 const getProfileData = () => {
+    let profile;
     axios ({
         method : "GET",
         url : `http://localhost:3002/api/getUserProfileDetails`,
@@ -9,13 +10,15 @@ const getProfileData = () => {
         }
     }).then  ((data) => {
         profile = data.data;
+        populateProfileData(profile)
     }).catch ((err)=> {
         console.log(err)
     })
+
+    return profile;
 }
 
-const populateProfileData = () => {
-    getProfileData();
+const populateProfileData = (profile) => {
     console.log(profile)
     const main_info_name = document.getElementById('main-info-id')
     main_info_name.appendChild(document.createTextNode(`${profile.firstName}`))
