@@ -2,6 +2,11 @@ const msg = document.querySelector('[data-msg]');
 const conversation = document.querySelector('[data-conversations]')
 const socket = io();
 let currentUserName;
+let userId = JSON.parse(sessionStorage.getItem("userDetails"))?.userId;
+
+if (!userId) {
+    window.location.href = "/";
+}
 
 
 function openChatPopup(id, name) {

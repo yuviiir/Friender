@@ -1,9 +1,14 @@
 let profile;
-// let profile=null;
+let userId = JSON.parse(sessionStorage.getItem("userDetails"))?.userId;
+
+if (!userId) {
+    window.location.href = "/";
+}
+
 const getProfileData = () => {
     axios ({
         method : "GET",
-        url : `http://localhost:3002/api/getUserProfileDetails`,
+        url : `http://ec2-3-82-51-192.compute-1.amazonaws.com:3002/api/getUserProfileDetails`,
         params: {
             userId: JSON.parse(sessionStorage.getItem("userDetails")).userId
         }
