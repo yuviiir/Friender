@@ -11,10 +11,7 @@ router.get("/", (req, res) => {
   res.send("Friender backend server");
 });
 
-router.use(cors({
-  origin: "*",
-  methods: ["GET", "POST"]
-}))
+router.use(cors())
 
 router.use(jsonParser);
 
