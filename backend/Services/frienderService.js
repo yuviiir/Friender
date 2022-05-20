@@ -2,22 +2,6 @@
 const dbConnection = require('../DataAccess/Config')
 const bcrypt = require('bcryptjs');
 
-module.exports.test = function() { 
-  return new Promise(function(resolve, reject) {
-    let userId = 52;
-    // let SQL = `SELECT userId FROM likedUsers lu WHERE EXISTS (SELECT LikedUser FROM likedUsers lu2 WHERE lu2.userId = '${userId}' AND lu2.LikedUser = lu.userID) AND lu.LikedUser = '${userId}'`
-    let SQL = `SELECT * FROM likedUsers`
-    dbConnection.query(SQL, function (err, result) {
-      if (err) {
-        console.error(err);
-        reject(err);
-        return;
-      }
-      resolve(result);
-    });
-  });
-}
-
 module.exports.getAllGenders = function() { 
   return new Promise(function(resolve, reject) {
     let SQL = `SELECT genderId, genderDescription FROM genderLookUp`
