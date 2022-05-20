@@ -31,6 +31,7 @@ let indexLinksArry = [
 ]
 
 function logout() {
+    sessionStorage.clear();
     window.location.href = "/";
 }
 
@@ -70,7 +71,8 @@ function loadNav() {
         ul.appendChild(li);
     })
 
-    nav.appendChild(ul);
+    if (path !== "/profileSetup")
+        nav.appendChild(ul);
     header.appendChild(nav);
     body.appendChild(header);
     body.appendChild(footer);

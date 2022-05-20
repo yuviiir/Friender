@@ -44,19 +44,16 @@ body {
 
 .BioTextArea {
     width: 25em;
-    height: 10em;
+    height: 5em;
     padding: 1em;
     box-sizing: border-box;
     border: 2px solid #ffe497;
     border-radius: 4px;
     background-color: #ffe497;
     font-size: 16px;
-    margin-right: 5em;
 } 
 
 .bottom-area {
-    display: flex;
-    justify-content: center;
     padding-bottom: 1em;
 }
 
@@ -94,11 +91,12 @@ body {
     background-color: #FFC000;
   } 
   
-  .labels{
+.labels{
     font-size: 1.5vw;
     color: black;
     font-family: 'Abhaya Libre', sans-serif;
     font-weight: 400;
+    margin: 1em 0 0.5em 0;
 }
 /* .page{
     width:max-content;

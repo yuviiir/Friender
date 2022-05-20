@@ -14,33 +14,33 @@ let submitData;
 let form = document.querySelector('#upload');
 let file = document.querySelector('#file');
 let app = document.querySelector('#app');
-let photoStr;
+let photoStr = "";
 let userId = JSON.parse(sessionStorage.getItem("userDetails"))?.userId;
 
 if (!userId) {
     window.location.href = "/";
 }
 
-/**
- * Log the uploaded file to the console
- * @param {event} Event The file loaded event
- */
-function logFile (event) {
-    photoStr = event.target.result; 
-}
+// /**
+//  * Log the uploaded file to the console
+//  * @param {event} Event The file loaded event
+//  */
+// function logFile (event) {
+//     photoStr = event.target.result; 
+// }
 
-/**
- * Handle submit events
- * @param  {Event} event The event object
- */
-function handleSubmit (event) {
-    event.preventDefault();
-    if (!file.value.length) return;
-    let reader = new FileReader();
-    reader.onload = logFile;
-    reader.readAsDataURL(file.files[0]);
-}
-form.addEventListener('submit', handleSubmit);
+// /**
+//  * Handle submit events
+//  * @param  {Event} event The event object
+//  */
+// function handleSubmit (event) {
+//     event.preventDefault();
+//     if (!file.value.length) return;
+//     let reader = new FileReader();
+//     reader.onload = logFile;
+//     reader.readAsDataURL(file.files[0]);
+// }
+// form.addEventListener('submit', handleSubmit);
 
 function SelectGender(gender){
     if(genderSelected)
