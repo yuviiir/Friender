@@ -7,81 +7,53 @@
         <link rel="stylesheet" href="static/css/profileSetup.css" />
         <link href="http://fonts.cdnfonts.com/css/better-saturday" rel="stylesheet">
         <link href="http://fonts.cdnfonts.com/css/abhaya-libre-2" rel="stylesheet">
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     </head>
     <body>
+        <section id="overlay" class="overlay"></section>
         <section class="page">
-        <h1 id="Heading" class = "ProfilePageHeader">Lets get to know you ...</h1>
-            <section class="Step1and2-Container">
-                <h1 class = "labels"  id="ChooseGenderHeader">Step 1: Show me...</h1>
+            <h1 id="Heading" class = "ProfilePageHeader">Lets get to know you ...</h1>\
+            <h1 class = "labels"  id="ChooseMyGenderHeader">Step 1: I am...</h1>
+            <section class = "MyGenderButtonsSection">
+                <button class = "btn" id="me-men" onclick="SelectMyGender('me-men')">
+                    Men
+                </button>
+                <button class ="btn" id="me-women" onclick="SelectMyGender('me-women')">
+                    Women
+                </button>
+                <button  class ="btn" id="me-non-binary" onclick="SelectMyGender('me-non-binary')">
+                    Non-binary
+                </button>
+            </section> 
 
-                <section class = "GenderButtonsSection">
-                    <button class = "btn" id="men" onclick="SelectGender('men')">
-                        Men
-                    </button>
-                    <button class ="btn" id="women" onclick="SelectGender('women')">
-                        Women
-                    </button>
-                    <button  class ="btn" id="non-binary" onclick="SelectGender('non-binary')">
-                        Transgender
-                    </button>
-                    <button class ="btn" id="all" onclick="SelectGender('all')">
-                        All
-                    </button>
-                </section> 
+            <h1 class = "labels"  id="ChooseGenderHeader">Step 2: Show me...</h1>
+            <section class = "GenderButtonsSection">
+                <button class = "btn" id="men" onclick="SelectGender('men')">
+                    Men
+                </button>
+                <button class ="btn" id="women" onclick="SelectGender('women')">
+                    Women
+                </button>
+                <button  class ="btn" id="non-binary" onclick="SelectGender('non-binary')">
+                    Non-binary
+                </button>
+                <button class ="btn" id="all" onclick="SelectGender('all')">
+                    All
+                </button>
+            </section> 
 
                 
-                <h1 class = "labels"  id="SelectInterestsHeading">Step 2: My interests are...</h1>
-                <section class = "InterestSelectionBtns">
-                    <button class ="btn" id="Hiking" onclick="SelectInterest('Hiking')">
-                        Hiking
-                    </button>
-                    <button class ="btn" id="Movies" onclick="SelectInterest('Movies')">
-                        Movies
-                    </button>
-                    <button class ="btn" id="Photography" onclick="SelectInterest('Photography')">
-                        Photography
-                    </button>
-
-                    <button class ="btn" id="Reading" onclick="SelectInterest('Reading')">
-                        Reading
-                    </button>
-                    <button class ="btn" id="Sports" onclick="SelectInterest('Sports')">
-                        Sports
-                    </button>
-                    <button class ="btn" id="Dogs" onclick="SelectInterest('Dogs')">
-                        Dogs
-                    </button>
-
-                    <button class ="btn" id="Gaming" onclick="SelectInterest('Gaming')">
-                        Gaming
-                    </button>
-                    <button class ="btn" id="Art" onclick="SelectInterest('Art')">
-                        Art
-                    </button>
-                    <button class ="btn" id="Cooking" onclick="SelectInterest('Cooking')">
-                        Cooking
-                    </button>
-
-                    <button class ="btn" id="Coffee" onclick="SelectInterest('Coffee')">
-                        Coffee
-                    </button>
-                    <button class ="btn" id="Beer" onclick="SelectInterest('Beer')">
-                        Beer
-                    </button>
-                    <button class ="btn" id="Camping" onclick="SelectInterest('Camping')">
-                        Camping
-                    </button>
-                </section>
-            </section>
-
-            <section class="Step3and4-Container">
+            <h1 class = "labels"  id="SelectInterestsHeading">Step 3: My interests are...</h1>
+            <section id="interestsSection" class = "InterestSelectionBtns"></section>
+    
+            <article class="bottom-area">
                 <section class="BioSection">
-                    <h1 class = "labels"  id="InsertBioHeader">Step 3: I describe myself as...</h1>
+                    <h1 class = "labels"  id="InsertBioHeader">Step 4: I describe myself as...</h1>
                     <input class="BioTextArea" id="BioTextAreaID" type="text" placeholder="Insert Bio here" value="" maxlength="150" onkeyup="UpdateBio(value)"></input>
                 </section>
 
                 <section class = "PhotoSection">
-                    <h1 class = "labels"  id="UploadPhotoHeader">Step 4: I look like ...</h1>
+                    <h1 class = "labels"  id="UploadPhotoHeader">Step 5: I look like ...</h1>
                     <div id="app"></div>
                     <form id="upload">
                         <!-- <label for="file">File to upload</label> -->
@@ -89,13 +61,10 @@
                         <button class ="Uploadbtn">Upload</button>
                     </form>
                 </section>
-                <button class="btn" id="submit" onclick="submitProfile()">Submit</button>
-            </section>
+            </article>
+            <button class="btn submit-btn" id="submit" onclick="submitProfile()">Submit</button>
         </section>    
     </body>
-    <footer>
-        <h3>Find friends, and have you experiences transcend!</h3>
-    </footer>
     <script src="static/js/nav.js"></script>
     <script src="static/js/profileSetup.js"></script>
 </html>

@@ -19,6 +19,11 @@ body {
     z-index: 100;
 }
 
+.overlay2 {
+    display: none;
+    z-index: 300;
+}
+
 .popup {
     display: none;
     position: absolute;

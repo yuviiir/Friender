@@ -1,4 +1,5 @@
 let overlay = document.getElementById("overlay");
+let overlay2 = document.getElementById("overlay2");
 let popup = {
     login: document.getElementById("loginPopup"),
     create: document.getElementById("createPopup"),
@@ -64,7 +65,17 @@ function initalizeForm() {
                 display: "Password",
                 error: "Please enter a valid password",
                 type: "password",
-                validation: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
+                validation: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/
+            },
+            userAge: {
+                value: null,
+                isValid: false,
+                isTouched: false,
+                placeholder: "Enter your age",
+                display: "Age",
+                error: "Please enter a valid Age",
+                validation: /^[1-9]\d*$/,
+                otherValidation: "age",
                 hint: "Passwords should be 8 characters or more and must contain at least one digit."
             }
         }
@@ -123,6 +134,10 @@ function checkValidity(type) {
     for (let key in formData[type]) {
         if (formData[type][key].value) {
             formData[type][key].isValid = formData[type][key].validation ? formData[type][key].validation.test(formData[type][key].value) : true;
+            if (formData[type][key].otherValidation) {
+                if (formData[type][key].otherValidation === "age")
+                    formData[type][key].isValid = parseInt(formData[type][key].value) > 12 && parseInt(formData[type][key].value) < 100 ? true : false;
+            }
         }
         else {
             formData[type][key].isValid = false;
@@ -153,32 +168,35 @@ function submit(type) {
     for (let key in formData[type]) {
         payload[key] = formData[type][key].value;
     }
+    overlay2.style.display = 'block';
     if (type == 'login') {
         axios({
             method: "GET",
-            url: `http://localhost:3002/api/login/`,
+            url: `http://ec2-3-82-51-192.compute-1.amazonaws.com:3002/api/login`,
             params: payload
         }).then((data) => {
             console.log(data)
-            sessionStorage.setItem("userDetails", JSON.stringify(data))
+            sessionStorage.setItem("userDetails", JSON.stringify(data.data))
             window.location.href = "/home";
         }).catch((err) => {
+            overlay2.style.display = 'none';
             console.log("help", err);
         })
     }
     else {
         axios({
             method: "POST",
-            url: `http://localhost:3002/api/signUp/`,
+            url: `http://ec2-3-82-51-192.compute-1.amazonaws.com:3002/api/signUp`,
             headers: {
                 'Content-Type': 'application/json',
             },
             data: payload
         }).then((data) => {
             console.log(data)
-            sessionStorage.setItem("userDetails", JSON.stringify(data))
+            sessionStorage.setItem("userDetails", JSON.stringify(data.data.userDetails))
             window.location.href = "/profileSetup";
         }).catch((err) => {
+            overlay2.style.display = 'none';
             console.log("help", err);
         })
     };

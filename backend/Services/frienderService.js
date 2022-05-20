@@ -40,6 +40,8 @@ module.exports.getLogins = function(email, password) {
         reject(err);
       }
       if (result.length >= 1) {
+        if (bcrypt.compareSync(password, result[0].password))
+        {
         let SQL = `SELECT userId, firstName, lastName, email FROM loginInDetails WHERE email = '${email}' AND password = '${result[0].password}'`
         dbConnection.query(SQL, function (err, result) {
           if (err) {
@@ -54,11 +56,34 @@ module.exports.getLogins = function(email, password) {
           }
         });
       }
+      else{
+        resolve({error: "incorrect login"});
+      }
+    }
     });
   });
 }
 
-module.exports.signUp = function(firstName, lastName, email, password) {
+module.exports.getPotentionalMatches = function(lowerBoundAge, higherBoundAge, interests, gender) { 
+  return new Promise(function(resolve, reject) {
+    let SQL = `SELECT userId, firstName, lastName FROM loginInDetails WHERE email = '${email}' AND password = '${password}'`
+    dbConnection.query(SQL, function (err, result) {
+      if (err) {
+        console.error(err);
+        reject(err);
+        return;
+      }
+      if (result.length >= 1) {
+        resolve(result[0]);
+      }
+      else {
+        resolve({error: "incorrect login"});
+      }
+    });
+  });
+}
+
+module.exports.signUp = function(firstName, lastName, email, password, userAge) {
   return new Promise(function(resolve, reject) {
     let sqlNoDuplicates = `SELECT * FROM loginInDetails WHERE email = '${email}'`;
 
@@ -75,7 +100,7 @@ module.exports.signUp = function(firstName, lastName, email, password) {
       }
       else
       {
-        SQL = `INSERT INTO loginInDetails (firstName, lastName, email, password) VALUES ('${firstName}', '${lastName}', '${email}', '${password}')`
+        SQL = `INSERT INTO loginInDetails (firstName, lastName, email, password, userAge) VALUES ('${firstName}', '${lastName}', '${email}', '${password}', ${userAge})`
         dbConnection.query(SQL, function (err, result) {
           if (err) {
             console.error(err);
@@ -92,15 +117,16 @@ module.exports.getFriends = function(userId) {
   let SQLGetPeeps = `SELECT loginInDetails.userId, 
   loginInDetails.firstName, 
   userProfileDetails.bio, 
-  userProfileDetails.profilePictureURL, 
-  interests.interestDescription,
-  userProfileDetails.userAge from loginInDetails 
+  userProfileDetails.profilePictureURL,
+  loginInDetails.userAge, 
+  group_concat(interests.interestDescription separator ', ') as interests from loginInDetails 
   INNER JOIN userProfileDetails ON userProfileDetails.userId = loginInDetails.userId 
   INNER JOIN userInterest ON userInterest.userId = userProfileDetails.userId 
   INNER JOIN interests ON interests.interestId = userInterest.interestId 
   WHERE interests.interestId IN (SELECT interests.interestId FROM interests INNER JOIN userInterest ON userInterest.interestId = interests.interestId WHERE userInterest.userId = ${userId}) 
   AND loginInDetails.userId != ${userId}
-  AND loginInDetails.userId NOT IN (SELECT DISTINCT LikedUser FROM likedUsers WHERE userId = ${userId})`
+  AND loginInDetails.userId NOT IN (SELECT DISTINCT LikedUser FROM likedUsers WHERE userId = ${userId})
+  GROUP BY loginInDetails.userId`
 
   return new Promise(function(resolve, reject) {
     dbConnection.query(SQLGetPeeps, function (err, result) {
@@ -112,13 +138,65 @@ module.exports.getFriends = function(userId) {
       if (result.length >= 1) {
         resolve(result);
       }
+      else
+      {
+        resolve([])
+      }
     });
   });
 }
 
 module.exports.getMatches = function(userId) { 
   return new Promise(function(resolve, reject) {
-    let SQL = `SELECT userId FROM likedUsers lu WHERE EXISTS (SELECT LikedUser FROM likedUsers lu2 WHERE lu2.userId = '${userId}' AND lu2.LikedUser = lu.userID) AND lu.LikedUser = '${userId}'`
+    let SQL = `SELECT lu.userId ,
+    loginInDetails.firstName, 
+    loginInDetails.email, 
+    userProfileDetails.profilePictureURL, 
+    userProfileDetails.bio, 
+    loginInDetails.userAge, 
+    genderLookUp.genderDescription as 'lookingFor', 
+    u.genderDescription as 'gender',
+    group_concat(interests.interestDescription separator ', ') as interests
+    FROM likedUsers lu 
+    INNER JOIN userProfileDetails ON userProfileDetails.userId = lu.LikedUser 
+    INNER JOIN loginInDetails ON loginInDetails.userId = userProfileDetails.userId
+    LEFT JOIN userInterest ON userInterest.userId = userProfileDetails.userId
+    LEFT JOIN interests ON interests.interestId = userInterest.interestId
+    LEFT JOIN genderLookUp ON genderLookUp.genderID = userProfileDetails.lookingFor 
+    LEFT JOIN genderLookUp u ON genderLookUp.genderID = userProfileDetails.userId 
+    WHERE EXISTS (SELECT LikedUser FROM likedUsers lu2 WHERE lu2.userId = '${userId}' AND lu2.LikedUser = lu.userID) AND lu.LikedUser = '${userId}'`
+    dbConnection.query(SQL, function (err, result) {
+      if (err) {
+        console.error(err);
+        reject(err);
+        return;
+      }
+      if (result.length >= 1) {
+        resolve(result);
+      }
+      else {
+        resolve([]);
+      }
+    });
+  });
+}
+
+module.exports.likeFriend = function(userId, friendId) { 
+  return new Promise(function(resolve, reject) {
+    let SQL = `SELECT userId FROM loginInDetails WHERE userId = '${friendId}'`
+    dbConnection.query(SQL, function (err, result) {
+      if (err) {
+        console.error(err);
+        reject(err);
+        return;
+      }
+      if (!result.length) {
+        resolve({error: "friend does not exist"});
+        return;
+      }
+    });
+
+    SQL = `SELECT userId, LikedUser FROM likedUsers WHERE userId = '${userId}' AND LikedUser = '${friendId}'`
     dbConnection.query(SQL, function (err, result) {
       if (err) {
         console.error(err);
@@ -126,10 +204,54 @@ module.exports.getMatches = function(userId) {
         return;
       }
       if (result.length) {
-        resolve(result);
+        resolve({error: "already liked"});
+        return;
       }
     });
+
+    SQL = `INSERT INTO likedUsers (userId, LikedUser) VALUES ('${userId}', '${friendId}')`
+    dbConnection.query(SQL, function (err, result) {
+      if (err) {
+        console.error(err);
+        reject(err);
+        return;
+      }
+      SQL = `SELECT userId FROM likedUsers WHERE userId = '${friendId}' AND LikedUSer = '${userId}'`
+      dbConnection.query(SQL, function (err, result) {
+        if (err) {
+          console.error(err);
+          reject(err);
+          return;
+        }
+        if (result.length) {
+          resolve({match: true});
+        }
+        else {
+          resolve({match: false});
+        }
+      });
+    });
   });
+}
+
+module.exports.dislikedFriend = function(userId, friendId) { 
+
+  return new Promise(function(resolve, reject) {
+    let SQL = `INSERT INTO dislikeUsers (userId, dislikedUser) VALUES (${userId}, ${friendId})`
+    dbConnection.query(SQL, function (err, result) {
+      if (err) {
+        console.error(err);
+        reject(err);
+        return;
+      }
+      if (result.affectedRows >= 1) {
+        resolve({message: "success"});
+      }
+      else {
+        resolve({message: "failed"});
+      }
+    });
+  })
 }
 
 module.exports.getUserProfileDetails = function(userId) { 
@@ -139,7 +261,7 @@ module.exports.getUserProfileDetails = function(userId) {
     loginInDetails.email, 
     userProfileDetails.profilePictureURL, 
     userProfileDetails.bio, 
-    userProfileDetails.userAge, 
+    loginInDetails.userAge, 
     genderLookUp.genderDescription as 'lookingFor', 
     u.genderDescription as 'gender',
     group_concat(interests.interestDescription separator ', ') as interests
@@ -156,18 +278,19 @@ module.exports.getUserProfileDetails = function(userId) {
         throw err;
       }
       if (result.length >= 1) {
+        console.log(result)
         resolve(result);
       }
       else{
-        reject("sorry champ")
+        resolve({})
       }
     });
   });
 }
 
-module.exports.postUserProfileDetails = function(profilePictureURL, bio, userAge, lookingFor, userGender, userId) { 
+module.exports.postUserProfileDetails = function(profilePictureURL, bio, lookingFor, userGender, userId) { 
   return new Promise(function(resolve, reject) {
-    let SQL = `INSERT INTO userProfileDetails (profilePictureURL, bio, userAge, lookingFor, userGender, userId) VALUES ('${profilePictureURL}', '${bio}', ${userAge}, ${lookingFor}, ${userGender}, ${userId})`
+    let SQL = `INSERT INTO userProfileDetails (profilePictureURL, bio, lookingFor, userGender, userId) VALUES ('${profilePictureURL}', '${bio}', ${lookingFor}, ${userGender}, ${userId})`
     dbConnection.query(SQL, function (err, result) {
       if (err) {
         throw err;
@@ -182,20 +305,25 @@ module.exports.postUserProfileDetails = function(profilePictureURL, bio, userAge
   });
 }
 
-module.exports.insertInterests = function(userId, interestId) { 
+module.exports.insertInterests = function(userId, interests) { 
   return new Promise(function(resolve, reject) {
-    let SQL = `INSERT INTO userInterest (userId, interestId) VALUES (${userId}, ${interestId})`
-    dbConnection.query(SQL, function (err, result) {
-      if (err) {
-        throw err;
-      }
-      if (result.affectedRows >= 1) {
-        resolve({message: "success"});
-      }
-      else{
-        reject({message: "failed"})
-      }
-    });
+    let complete = false;
+    for (let i = 0; i < interests.length; i++) {
+      let SQL = `INSERT INTO userInterest (userId, interestId) VALUES (${userId}, ${interests[i]})`
+      dbConnection.query(SQL, function (err, result) {
+        if (err) {
+          throw err;
+        }
+        if (result.affectedRows >= 1) {
+          complete = true
+        }
+        else{
+          complete = false
+        }
+      });
+    }
+      resolve({message: "success"});
+
   });
 }
 
@@ -228,6 +356,44 @@ module.exports.updateUserProfileDetails = function(profilePictureURL, bio, userA
       }
       else{
         reject({message: "failed update"})
+      }
+    });
+  });
+}
+
+module.exports.postMessage = function(recipientId, senderId, message, dateSent) { 
+  return new Promise(function(resolve, reject) {
+    let SQL = `INSERT INTO chats (receiverUser, sendingUser, message, dateSent) VALUES (${recipientId}, ${senderId}, '${message}', '${dateSent}')`
+    dbConnection.query(SQL, function (err, result) {
+      if (err) {
+        throw err;
+      }
+      if (result.affectedRows >= 1) {
+        resolve({message: "success"});
+      }
+      else{
+        resolve({message: "failed"})
+      }
+    });
+  });
+}
+
+module.exports.getMessages = function(userId, friendId) { 
+  return new Promise(function(resolve, reject) {
+    let SQL = `SELECT
+      receiverUser, sendingUser, message, dateSent 
+      FROM chats 
+      WHERE (receiverUser = ${userId} AND sendingUser = ${friendId}) 
+      OR (receiverUser = ${friendId} AND sendingUser = ${userId})`
+    dbConnection.query(SQL, function (err, result) {
+      if (err) {
+        throw err;
+      }
+      if (result.length) {
+        resolve(result);
+      }
+      else{
+        resolve({message: "no chats between users"})
       }
     });
   });

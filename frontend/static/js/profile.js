@@ -1,40 +1,38 @@
-let profile = {
-    id:4,
-    name:"Mark",
-    age:19,
-    location:"Johannesburg",
-    bio:"I love going out once in a while to have a great time with friends. I love dancing and I occasionally run on weekends too.",
-    interests: ["running", "animals", "napping", "swimming"],
-    show_me: ["men", "transgender"],
-    img_url:"static/images/pp.png"
+let profile;
+let userId = JSON.parse(sessionStorage.getItem("userDetails"))?.userId;
+
+if (!userId) {
+    window.location.href = "/";
 }
-// let profile=null;
+
 const getProfileData = () => {
+    let profile = {};
     axios ({
         method : "GET",
-        url : `http://localhost:3002/userProfileDetails/`,
+        url : `http://ec2-3-82-51-192.compute-1.amazonaws.com:3002/api/getUserProfileDetails`,
         params: {
-            userId: sessionStorage.getItem('id')
+            userId: JSON.parse(sessionStorage.getItem("userDetails")).userId
         }
-
-    }).then  ((data) => {
+    }).then ((data) => {
+        profile = data.data[0];
         console.log(data)
-        profile=data
+        populateProfileData(profile)
     }).catch ((err)=> {
         console.log(err)
     })
 }
 
-const populateProfileData = () => {
+const populateProfileData = (profile) => {
+    console.log(profile)
     const main_info_name = document.getElementById('main-info-id')
-    main_info_name.appendChild(document.createTextNode(`${profile.name}`))
+    main_info_name.appendChild(document.createTextNode(`${profile.firstName}`))
     const main_info_age = document.getElementById('main-info-Age')
-    main_info_age.appendChild(document.createTextNode(` ${profile.age}`))
+    main_info_age.appendChild(document.createTextNode(` ${profile.userAge}`))
     const bio_section = document.getElementById('bio-id')
     bio_section.appendChild(document.createTextNode(`${profile.bio}`))
     const interests_button_container = document.getElementById('interests-buttons-id')
 
-    const interests= profile.interests
+    const interests= profile.interests.split(', ')
     for (let i=0; i <interests.length; i++) {
         const interest_button =document.createElement('button')
         interest_button.appendChild(document.createTextNode(`${interests[i]}`))
@@ -44,15 +42,14 @@ const populateProfileData = () => {
 
     const show_me_buttons = document.getElementById('show-me-container-id')
 
-    const show_me =profile.show_me
-    for (let i=0; i< show_me.length; i++) {
-        const show_me_button = document.createElement('button')
-        show_me_button.appendChild(document.createTextNode(`${show_me[i]}`))
-        show_me_button.className='interest_button show-me-button'
-        show_me_buttons.appendChild(show_me_button)
+    const show_me = profile.lookingFor;
 
-    }
+    const show_me_button = document.createElement('button')
+    show_me_button.appendChild(document.createTextNode(`${show_me}`))
+    show_me_button.className='interest_button show-me-button'
+    show_me_buttons.appendChild(show_me_button)
+
 }
 
 
-window.onload=populateProfileData()
+window.onload=getProfileData();

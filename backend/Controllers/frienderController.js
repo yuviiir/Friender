@@ -48,13 +48,14 @@ router.post("/signUp", (req, res) => {
     firstName, 
     lastName, 
     email, 
-    password
+    password,
+    age
    } = req.body
    ;
 
    let passwordHash = bcrypt.hashSync(password, 10);
 
-  serviceFriender.signUp(firstName, lastName, email, passwordHash).then((data) => {
+  serviceFriender.signUp(firstName, lastName, email, passwordHash, age).then((data) => {
     res.send(data);
   }, (error) => {
     res.status(500).send({error: "There was an error completing this request."});
@@ -89,20 +90,28 @@ router.get("/getUserProfileDetails", (req, res) => {
   }, (err) => res.status(500).send({error: "There was an error completing this request."}))
 });
 
-router.post("/postUserProfileDetails", (req, res) => {
+router.get("/getMatches", (req, res) => {
   let userId = req.query.userId;
-  let profilePictureURL = req.query.profilePictureURL;
-  let bio = req.query.bio;
-  let userAge = req.query.userAge;
-  let lookingFor = req.query.lookingFor;
-  let gender = req.query.gender;
 
-  serviceFriender.postUserProfileDetails(profilePictureURL, bio, userAge, lookingFor, gender, userId).then((data) => {
+  serviceFriender.getMatches(userId).then((data) => {
     res.send(data)
   }, (err) => res.status(500).send({error: "There was an error completing this request."}))
 });
 
-router.patch("/updatUserProfileDetails/:userId", (req, res) => {
+router.post("/postUserProfileDetails", (req, res) => {
+  let userId = req.body.userId;
+  let profilePictureURL = req.body.profilePictureURL;
+  let bio = req.body.bio;
+  let lookingFor = req.body.lookingFor;
+  let gender = req.body.gender;
+
+
+  serviceFriender.postUserProfileDetails(profilePictureURL, bio, lookingFor, gender, userId).then((data) => {
+    res.send(data)
+  }, (err) => res.status(500).send({error: "There was an error completing this request."}))
+});
+
+router.post("/updatUserProfileDetails", (req, res) => {
   let userId = req.query.userId;
   let profilePictureURL = req.query.profilePictureURL;
   let bio = req.query.bio;
@@ -128,11 +137,24 @@ router.post("/like", (req, res) => {
   }) 
 });
 
-router.post("insertInterest", (req, res) => {
-  let userId = req.query.friendId;
-  let interestId = req.query.userId;
+router.post("/dislike", (req, res) => {
+  let {
+    userId,
+    friendId
+  } = req.body;
+  
+  serviceFriender.dislikedFriend(userId, friendId).then((data) => {
+    res.send(data);
+  }, (error) => {
+    res.status(500).send({error: "There was an error completing this request."});
+  }) 
+});
 
-  serviceFriender.insertInterests(userId, interestId).then((data) => {
+router.post("/insertInterest", (req, res) => {
+  let userId = req.body.userId;
+  let interests = req.body.interests
+  
+  serviceFriender.insertInterests(userId, interests).then((data) => {
     res.send(data);
   }, (error) => {
     res.status(500).send({error: "There was an error completing this request."});
@@ -150,11 +172,30 @@ router.post("updateInterest", (req, res) => {
   })
 });
 
-router.post("/message/:recipientId", (req, res) => {
-    let recipientId = req.params.userId;
-    let { senderId, message } = req.body;
+router.get("/messages", (req, res) => {
+  let userId = req.query.senderId;
+  let friendId = req.query.recipientId;
 
-    res.status(418).send("All good things to those who wait.");
+  serviceFriender.getMessages(userId, friendId).then((data) => {
+    res.send(data);
+  }, (error) => {
+    res.status(500).send({error: "There was an error completing this request."});
+  })
+});
+
+router.post("/message", (req, res) => {
+    let { 
+      recipientId, 
+      senderId, 
+      message,
+      dateSent
+    } = req.body;
+
+    serviceFriender.postMessage(recipientId, senderId, message, dateSent).then((data) => {
+      res.send(data);
+    }, (error) => {
+      res.status(500).send({error: "There was an error completing this request."});
+    })
 });
 
 module.exports = router

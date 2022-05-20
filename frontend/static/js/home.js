@@ -1,12 +1,17 @@
 let overlay = document.getElementById("overlay");
 let popup = document.getElementById("matchPopup");
 let image = document.getElementById("popupImage");
-let potentialFriends = []
+let potentialFriends = [];
+let userId = JSON.parse(sessionStorage.getItem("userDetails"))?.userId;
 
-function getPotentialFriends(userId) {
+if (!userId) {
+    window.location.href = "/";
+}
+
+function getPotentialFriends() {
         axios({
             method: "GET",
-            url: `http://localhost:3002/api/getFriends/`,
+            url: `http://ec2-3-82-51-192.compute-1.amazonaws.com:3002/api/getFriends/`,
             params: {userId: userId}
         }).then((res) => {
             potentialFriends = res.data
@@ -48,7 +53,7 @@ function renderNextUser() {
         detailsSection.className = "details-section";
         let nameDetail = document.createElement("h1");
         nameDetail.className = "name-detail";
-        nameDetail.innerText = `${nextUser.firstName} ${nextUser.lastName}`
+        nameDetail.innerText = nextUser.firstName;
         detailsSection.appendChild(nameDetail);
         let ageDetail = document.createElement("h1");
         ageDetail.className = "age-detail";
@@ -60,37 +65,40 @@ function renderNextUser() {
         detailsSection.appendChild(bioDetail);
         let interestsDetails = document.createElement("article");
         interestsDetails.className = "interests-details";
-        let interestDetail = document.createElement("section");
-        interestDetail.className = "interest";
-        interestDetail.innerText = nextUser.interestDescription;
-        interestsDetails.appendChild(interestDetail);
-        // nextUser.interests.map((interest) => {
-        // });
+        let interests = nextUser.interests.split(", ");
+        interests.map((interest) => {
+            let interestDetail = document.createElement("section");
+            interestDetail.className = "interest";
+            interestDetail.innerText = interest;
+            interestsDetails.appendChild(interestDetail);
+        });
         detailsSection.appendChild(interestsDetails);
         mainSection.appendChild(pictureSection);
         mainSection.appendChild(detailsSection);
     }
 }
 
-function likeUser(userId) {
-    // like api
-    console.log("like", userId)
-    let isMatch = true;
-
-    if (isMatch) {
-        openPopup();
-    }
-    nextUser();
-}
-
-function openMatchPopup() {
-
+function likeUser(friendId) {
+    axios({
+        method: "POST",
+        url: `http://ec2-3-82-51-192.compute-1.amazonaws.com:3002/api/like/`,
+        data: {
+            userId: userId,
+            friendId: friendId
+        }
+    }).then((res) => {
+        if (res.data.match) 
+            openPopup();
+        nextUser();
+    }).catch((err) => {
+        console.log("help", err);
+    })
 }
 
 function openPopup() {
     overlay.style.display = 'block';
     popup.style.display = 'block';
-    image.src = potentialFriends[0].profilePicture;
+    image.src = potentialFriends[0].profilePictureURL;
 }
 
 function closePopup() {
@@ -99,10 +107,19 @@ function closePopup() {
 }
 
 
-function dislikeUser(userId) {
-    // dislike api
-    console.log("dislike", userId)
-    nextUser();
+function dislikeUser(friendId) {
+    axios({
+        method: "POST",
+        url: `http://ec2-3-82-51-192.compute-1.amazonaws.com:3002/api/dislike/`,
+        data: {
+            userId: userId,
+            friendId: friendId
+        }
+    }).then((res) => {
+        nextUser();
+    }).catch((err) => {
+        console.log("help", err);
+    })
 }
 
 function nextUser() {
@@ -111,4 +128,4 @@ function nextUser() {
 }
 
 
-renderNextUser()
+getPotentialFriends(JSON.parse(sessionStorage.getItem("userDetails")).userId)
