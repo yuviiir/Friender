@@ -14,7 +14,8 @@ let submitData;
 let form = document.querySelector('#upload');
 let file = document.querySelector('#file');
 let app = document.querySelector('#app');
-let photoStr = "";
+let photoStr = "https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50"
+;
 let userId = JSON.parse(sessionStorage.getItem("userDetails"))?.userId;
 
 if (!userId) {
@@ -193,12 +194,12 @@ function submitProfile() {
         userId: JSON.parse(sessionStorage.getItem("userDetails")).userId,
         lookingFor: genderId,
         gender: myGenderId
-    }
-    document.getElementById('overlay').style.display = "block";
-    if(submitData == true)
+      }
+      if(submitData == true){
+        document.getElementById('overlay').style.display = "block";
         axios({
             method: "POST",
-            url: `http://ec2-3-82-51-192.compute-1.amazonaws.com:3002/api/postUserProfileDetails`,
+            url: `http://localhost:3002/api/postUserProfileDetails`,
             data: payload
         }).then((data) => {
             console.log(data)
@@ -208,6 +209,7 @@ function submitProfile() {
             document.getElementById('overlay').style.display = "none";
             console.log("help", err);
         })
+    }
     
 }
 
@@ -218,7 +220,7 @@ function submitInterests() {
     }
     axios({
         method: "POST",
-        url: `http://ec2-3-82-51-192.compute-1.amazonaws.com:3002/api/insertInterest`,
+        url: `http://localhost:3002/api/insertInterest`,
         data: interestPayload
     }).then((data) => {
         console.log(data)
@@ -233,7 +235,7 @@ function submitInterests() {
 function populateInterests() {
     axios({
         method: "GET",
-        url: `http://ec2-3-82-51-192.compute-1.amazonaws.com:3002/api/interestOptions`,
+        url: `http://localhost:3002/api/interestOptions`,
     }).then((data) => {
         let interestsSection = document.getElementById("interestsSection");
         data.data.map((interest) => {

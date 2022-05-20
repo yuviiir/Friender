@@ -10,10 +10,6 @@ let allLinksArray = [
         href: "/matches"
     },
     {
-        name: "Profile",
-        href: "/profile"
-    }, 
-    {
         name: "Logout",
         onclick: () => logout()
     },

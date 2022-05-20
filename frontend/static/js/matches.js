@@ -19,18 +19,18 @@ function openChatPopup(id, name) {
     currentUserName = JSON.parse(sessionStorage.getItem("userDetails")).firstName;
     selectedchatid = id;
 
-        axios({
-            method: 'GET',
-            url: 'http://localhost:3002/api/messages',
-            params: {
-              recipientId : selectedchatid,
-              senderId : JSON.parse(sessionStorage.getItem("userDetails")).userId
-            }
-        }).then ((data) => {
-          console.log(data)
-          }).catch ((err)=> {
-          console.log(err)
-      })
+      //   axios({
+      //       method: 'GET',
+      //       url: 'http://localhost:3002/api/messages',
+      //       params: {
+      //         recipientId : selectedchatid,
+      //         senderId : JSON.parse(sessionStorage.getItem("userDetails")).userId
+      //       }
+      //   }).then ((data) => {
+      //     console.log(data)
+      //     }).catch ((err)=> {
+      //     console.log(err)
+      // })
 
 }
 
@@ -50,20 +50,20 @@ function sendMessage(){
     msg.value = '';
     msg.focus();
     
-        axios({
-            method: 'POST',
-            url: 'http://localhost:3002/api/message',
-            data: {
-              recipientId : selectedchatid,
-              senderId : JSON.parse(sessionStorage.getItem("userDetails")).userId,
-              message: txtmsg,
-              dateSent: '13:11 am'
-            }
-        }).then ((data) => {
-          console.log(data)
-          }).catch ((err)=> {
-          console.log(err)
-      })
+      //   axios({
+      //       method: 'POST',
+      //       url: 'http://localhost:3002/api/message',
+      //       data: {
+      //         recipientId : selectedchatid,
+      //         senderId : JSON.parse(sessionStorage.getItem("userDetails")).userId,
+      //         message: txtmsg,
+      //         dateSent: '13:11 am'
+      //       }
+      //   }).then ((data) => {
+      //     console.log(data)
+      //     }).catch ((err)=> {
+      //     console.log(err)
+      // })
   }
 
 

@@ -11,7 +11,7 @@ if (!userId) {
 function getPotentialFriends() {
         axios({
             method: "GET",
-            url: `http://ec2-3-82-51-192.compute-1.amazonaws.com:3002/api/getFriends/`,
+            url: `http://localhost:3002/api/getFriends/`,
             params: {userId: userId}
         }).then((res) => {
             potentialFriends = res.data
@@ -55,10 +55,12 @@ function renderNextUser() {
         nameDetail.className = "name-detail";
         nameDetail.innerText = nextUser.firstName;
         detailsSection.appendChild(nameDetail);
-        let ageDetail = document.createElement("h1");
-        ageDetail.className = "age-detail";
-        ageDetail.innerText = `${nextUser.age}`
-        detailsSection.appendChild(ageDetail);
+        if (nextUser.userAge) {
+          let ageDetail = document.createElement("h1");
+          ageDetail.className = "age-detail";
+          ageDetail.innerText = `${nextUser.userAge}`
+          detailsSection.appendChild(ageDetail);
+        }
         let bioDetail = document.createElement("section");
         bioDetail.className = "bio-detail";
         bioDetail.innerText = nextUser.bio;
@@ -81,7 +83,7 @@ function renderNextUser() {
 function likeUser(friendId) {
     axios({
         method: "POST",
-        url: `http://ec2-3-82-51-192.compute-1.amazonaws.com:3002/api/like/`,
+        url: `http://localhost:3002/api/like/`,
         data: {
             userId: userId,
             friendId: friendId
@@ -110,7 +112,7 @@ function closePopup() {
 function dislikeUser(friendId) {
     axios({
         method: "POST",
-        url: `http://ec2-3-82-51-192.compute-1.amazonaws.com:3002/api/dislike/`,
+        url: `http://localhost:3002/api/dislike/`,
         data: {
             userId: userId,
             friendId: friendId
