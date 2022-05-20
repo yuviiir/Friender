@@ -172,7 +172,7 @@ function submit(type) {
     if (type == 'login') {
         axios({
             method: "GET",
-            url: `http://localhost:3002/api/login`,
+            url: `http://ec2-3-82-51-192.compute-1.amazonaws.com:3002/api/login`,
             params: payload
         }).then((data) => {
             console.log(data)
@@ -186,7 +186,7 @@ function submit(type) {
     else {
         axios({
             method: "POST",
-            url: `http://localhost:3002/api/signUp`,
+            url: `http://ec2-3-82-51-192.compute-1.amazonaws.com:3002/api/signUp`,
             headers: {
                 'Content-Type': 'application/json',
             },

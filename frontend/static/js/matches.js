@@ -21,7 +21,7 @@ function openChatPopup(id, name) {
 
       //   axios({
       //       method: 'GET',
-      //       url: 'http://localhost:3002/api/messages',
+      //       url: 'http://ec2-3-82-51-192.compute-1.amazonaws.com:3002/api/messages',
       //       params: {
       //         recipientId : selectedchatid,
       //         senderId : JSON.parse(sessionStorage.getItem("userDetails")).userId
@@ -52,7 +52,7 @@ function sendMessage(){
     
       //   axios({
       //       method: 'POST',
-      //       url: 'http://localhost:3002/api/message',
+      //       url: 'http://ec2-3-82-51-192.compute-1.amazonaws.com:3002/api/message',
       //       data: {
       //         recipientId : selectedchatid,
       //         senderId : JSON.parse(sessionStorage.getItem("userDetails")).userId,
@@ -91,7 +91,7 @@ const getMatches = () =>
 {
     axios({
         method: "GET",
-        url: `http://localhost:3002/api/getMatches`,
+        url: `http://ec2-3-82-51-192.compute-1.amazonaws.com:3002/api/getMatches`,
         params: {
            userId: JSON.parse(sessionStorage.getItem("userDetails")).userId,
         }

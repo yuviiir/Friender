@@ -199,7 +199,7 @@ function submitProfile() {
         document.getElementById('overlay').style.display = "block";
         axios({
             method: "POST",
-            url: `http://localhost:3002/api/postUserProfileDetails`,
+            url: `http://ec2-3-82-51-192.compute-1.amazonaws.com:3002/api/postUserProfileDetails`,
             data: payload
         }).then((data) => {
             console.log(data)
@@ -220,7 +220,7 @@ function submitInterests() {
     }
     axios({
         method: "POST",
-        url: `http://localhost:3002/api/insertInterest`,
+        url: `http://ec2-3-82-51-192.compute-1.amazonaws.com:3002/api/insertInterest`,
         data: interestPayload
     }).then((data) => {
         console.log(data)
@@ -235,7 +235,7 @@ function submitInterests() {
 function populateInterests() {
     axios({
         method: "GET",
-        url: `http://localhost:3002/api/interestOptions`,
+        url: `http://ec2-3-82-51-192.compute-1.amazonaws.com:3002/api/interestOptions`,
     }).then((data) => {
         let interestsSection = document.getElementById("interestsSection");
         data.data.map((interest) => {
