@@ -65,7 +65,8 @@ function initalizeForm() {
                 display: "Password",
                 error: "Please enter a valid password",
                 type: "password",
-                validation: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/
+                validation: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
+                hint: "Passwords should be 8 characters or more and must contain at least one digit."
             },
             userAge: {
                 value: null,
@@ -75,8 +76,7 @@ function initalizeForm() {
                 display: "Age",
                 error: "Please enter a valid Age",
                 validation: /^[1-9]\d*$/,
-                otherValidation: "age",
-                hint: "Passwords should be 8 characters or more and must contain at least one digit."
+                otherValidation: "age"
             }
         }
     };
