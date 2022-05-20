@@ -1,4 +1,6 @@
 /frontend/node_modules
+/frontend/package-lock.json
 /backend/node_modules
+/backendgit rm --cached/package-lock.json
 node_modules
 *.kate-swp

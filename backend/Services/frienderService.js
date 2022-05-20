@@ -2,22 +2,6 @@
 const dbConnection = require('../DataAccess/Config')
 const bcrypt = require('bcryptjs');
 
-module.exports.test = function() { 
-  return new Promise(function(resolve, reject) {
-    let userId = 52;
-    // let SQL = `SELECT userId FROM likedUsers lu WHERE EXISTS (SELECT LikedUser FROM likedUsers lu2 WHERE lu2.userId = '${userId}' AND lu2.LikedUser = lu.userID) AND lu.LikedUser = '${userId}'`
-    let SQL = `SELECT * FROM likedUsers`
-    dbConnection.query(SQL, function (err, result) {
-      if (err) {
-        console.error(err);
-        reject(err);
-        return;
-      }
-      resolve(result);
-    });
-  });
-}
-
 module.exports.getAllGenders = function() { 
   return new Promise(function(resolve, reject) {
     let SQL = `SELECT genderId, genderDescription FROM genderLookUp`
@@ -156,7 +140,7 @@ module.exports.getFriends = function(userId) {
       }
       else
       {
-        result([])
+        resolve([])
       }
     });
   });
@@ -164,17 +148,18 @@ module.exports.getFriends = function(userId) {
 
 module.exports.getMatches = function(userId) { 
   return new Promise(function(resolve, reject) {
-    let SQL = `SELECT lu.userId 
+    let SQL = `SELECT lu.userId ,
     loginInDetails.firstName, 
     loginInDetails.email, 
     userProfileDetails.profilePictureURL, 
     userProfileDetails.bio, 
-    userProfileDetails.userAge, 
+    loginInDetails.userAge, 
     genderLookUp.genderDescription as 'lookingFor', 
     u.genderDescription as 'gender',
     group_concat(interests.interestDescription separator ', ') as interests
     FROM likedUsers lu 
     INNER JOIN userProfileDetails ON userProfileDetails.userId = lu.LikedUser 
+    INNER JOIN loginInDetails ON loginInDetails.userId = userProfileDetails.userId
     LEFT JOIN userInterest ON userInterest.userId = userProfileDetails.userId
     LEFT JOIN interests ON interests.interestId = userInterest.interestId
     LEFT JOIN genderLookUp ON genderLookUp.genderID = userProfileDetails.lookingFor 
@@ -186,8 +171,11 @@ module.exports.getMatches = function(userId) {
         reject(err);
         return;
       }
-      if (result.length) {
+      if (result.length >= 1) {
         resolve(result);
+      }
+      else {
+        resolve([]);
       }
     });
   });
@@ -290,10 +278,11 @@ module.exports.getUserProfileDetails = function(userId) {
         throw err;
       }
       if (result.length >= 1) {
+        console.log(result)
         resolve(result);
       }
       else{
-        reject({})
+        resolve({})
       }
     });
   });
@@ -367,6 +356,44 @@ module.exports.updateUserProfileDetails = function(profilePictureURL, bio, userA
       }
       else{
         reject({message: "failed update"})
+      }
+    });
+  });
+}
+
+module.exports.postMessage = function(recipientId, senderId, message, dateSent) { 
+  return new Promise(function(resolve, reject) {
+    let SQL = `INSERT INTO chats (receiverUser, sendingUser, message, dateSent) VALUES (${recipientId}, ${senderId}, '${message}', '${dateSent}')`
+    dbConnection.query(SQL, function (err, result) {
+      if (err) {
+        throw err;
+      }
+      if (result.affectedRows >= 1) {
+        resolve({message: "success"});
+      }
+      else{
+        resolve({message: "failed"})
+      }
+    });
+  });
+}
+
+module.exports.getMessages = function(userId, friendId) { 
+  return new Promise(function(resolve, reject) {
+    let SQL = `SELECT
+      receiverUser, sendingUser, message, dateSent 
+      FROM chats 
+      WHERE (receiverUser = ${userId} AND sendingUser = ${friendId}) 
+      OR (receiverUser = ${friendId} AND sendingUser = ${userId})`
+    dbConnection.query(SQL, function (err, result) {
+      if (err) {
+        throw err;
+      }
+      if (result.length) {
+        resolve(result);
+      }
+      else{
+        resolve({message: "no chats between users"})
       }
     });
   });

@@ -75,7 +75,8 @@ function initalizeForm() {
                 display: "Age",
                 error: "Please enter a valid Age",
                 validation: /^[1-9]\d*$/,
-                otherValidation: "age"
+                otherValidation: "age",
+                hint: "Passwords should be 8 characters or more and must contain at least one digit."
             }
         }
     };
@@ -101,9 +102,19 @@ function initalizeForm() {
             p2.className = "input-box-invalid-msg";
             p2.innerText = formData[type][key].error;
             section.appendChild(p2);
+            let section2 = document.createElement('section');
+            section2.id = `${type}${key}`;
+            section2.className = "input-box-hint-wrapper";
+            if (formData[type][key].hint) {
+              let p3 = document.createElement('p');
+              p3.className = "input-box-hint";
+              p3.innerText = formData[type][key].hint;
+              section2.appendChild(p3);
+            }
             article.appendChild(p);
             article.appendChild(input);
             article.appendChild(section);
+            article.appendChild(section2);
             inputsSection.appendChild(article);
             document.getElementById(`${type}${key}`).style.display = "none";
         }

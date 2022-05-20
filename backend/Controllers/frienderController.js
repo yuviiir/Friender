@@ -90,6 +90,14 @@ router.get("/getUserProfileDetails", (req, res) => {
   }, (err) => res.status(500).send({error: "There was an error completing this request."}))
 });
 
+router.get("/getMatches", (req, res) => {
+  let userId = req.query.userId;
+
+  serviceFriender.getMatches(userId).then((data) => {
+    res.send(data)
+  }, (err) => res.status(500).send({error: "There was an error completing this request."}))
+});
+
 router.post("/postUserProfileDetails", (req, res) => {
   let userId = req.body.userId;
   let profilePictureURL = req.body.profilePictureURL;
@@ -142,8 +150,6 @@ router.post("/dislike", (req, res) => {
   }) 
 });
 
-// Messages API may change to sockets:
-
 router.post("/insertInterest", (req, res) => {
   let userId = req.body.userId;
   let interests = req.body.interests
@@ -166,11 +172,30 @@ router.post("updateInterest", (req, res) => {
   })
 });
 
-router.post("/message/:recipientId", (req, res) => {
-    let recipientId = req.params.userId;
-    let { senderId, message } = req.body;
+router.get("/messages", (req, res) => {
+  let userId = req.query.senderId;
+  let friendId = req.query.recipientId;
 
-    res.status(418).send("All good things to those who wait.");
+  serviceFriender.getMessages(userId, friendId).then((data) => {
+    res.send(data);
+  }, (error) => {
+    res.status(500).send({error: "There was an error completing this request."});
+  })
+});
+
+router.post("/message", (req, res) => {
+    let { 
+      recipientId, 
+      senderId, 
+      message,
+      dateSent
+    } = req.body;
+
+    serviceFriender.postMessage(recipientId, senderId, message, dateSent).then((data) => {
+      res.send(data);
+    }, (error) => {
+      res.status(500).send({error: "There was an error completing this request."});
+    })
 });
 
 module.exports = router
